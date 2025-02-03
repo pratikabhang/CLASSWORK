@@ -5,54 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPA & SGPA Calculator - SPPU</title>
     <style>
-        /* General body styling */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: #f0f0f0;
-            animation: fadeIn 0.5s ease-out;
+            background: #f8f9fa;
         }
-
-        /* Header styling */
         header {
-            background-color: #FFCC80;
+            background-color: #FF9800;
             color: white;
             padding: 20px;
             text-align: center;
-            animation: slideInFromTop 1s ease-out;
-        }
-
-        /* Logo Styling */
-        header h1 {
-            font-size: 36px;
+            font-size: 24px;
             font-weight: bold;
-            margin: 0;
         }
-
-        /* Navigation Bar Styling */
-        nav {
-            background-color: #333;
-            overflow: hidden;
-            text-align: center;
-            animation: fadeIn 1s ease-out;
-        }
-
-        nav a {
-            display: inline-block;
-            color: white;
-            padding: 14px 20px;
-            text-decoration: none;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-
-        nav a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-
-        /* Main container styling */
         .container {
             max-width: 800px;
             margin: 40px auto;
@@ -60,412 +26,136 @@
             background: white;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 1s ease-out;
         }
-
         .form-group {
             margin-bottom: 20px;
         }
-
         label {
+            font-weight: bold;
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
-
         input {
             width: 100%;
-            padding: 10px;
+            padding: 8px;
             border: 1px solid #ddd;
             border-radius: 5px;
         }
-
         button {
-            background-color: #3b41ff;
+            width: 100%;
+            background-color: #FF9800;
             color: white;
-            padding: 10px 20px;
+            padding: 10px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease-in-out;
+            margin-top: 10px;
         }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        /* Styling for result display */
         .result {
             margin-top: 20px;
             padding: 15px;
             background-color: #e8f5e9;
-            border-left: 4px solid #4caf50;
+            border-left: 5px solid #4caf50;
             border-radius: 5px;
             display: none;
-            animation: slideInFromBottom 1s ease-out;
         }
-
-        .result-row {
+        .button-group {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
-
-        .result-row label {
-            font-weight: bold;
-        }
-
-        /* Download button styling */
-        .download-button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #ff9800;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease-in-out;
-        }
-
-        .download-button:hover {
-            background-color: #e68900;
-        }
-
-        /* Grade details section styling */
-        .grade-details {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 1s ease-out;
-        }
-
-        .grade-details table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .grade-details th, .grade-details td {
-            padding: 12px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
-
-        .grade-details th {
-            background-color: #f2f2f2;
-        }
-
-        /* Hide sections initially */
-        .hidden {
-            display: none;
-        }
-
-        footer {
-            margin-top: 40px;
-            text-align: center;
-            color: #777;
-            font-size: 14px;
-            animation: fadeIn 2s ease-out;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        @keyframes slideInFromTop {
-            0% { transform: translateY(-50px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
-
-        @keyframes slideInFromBottom {
-            0% { transform: translateY(50px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 28px;
-            }
-
-            nav a {
-                font-size: 14px;
-                padding: 12px;
-            }
-
-            .container {
-                margin: 20px;
-                padding: 15px;
-            }
-
-            .form-group input {
-                font-size: 14px;
-                padding: 8px;
-            }
-
-            button {
-                font-size: 14px;
-                padding: 8px 16px;
-            }
-
-            footer {
-                font-size: 12px;
-            }
+        .button-group button {
+            width: 48%;
         }
     </style>
 </head>
 <body>
-    <!-- Header Section -->
-    <header>
-        <h1>GPA & SGPA Calculator - SPPU</h1>
-    </header>
+    <header>GPA & SGPA Calculator - SPPU</header>
 
-    <!-- Navigation Bar -->
-    <nav>
-        <a href="javascript:void(0);" onclick="showSection('tenth-percentage')">10th / 12th Percentage Calculator</a>
-        <a href="javascript:void(0);" onclick="showSection('sgpa-to-cgpa')">SGPA to CGPA</a>
-        <a href="javascript:void(0);" onclick="showSection('cgpa-to-percentage')">CGPA to Percentage</a>
-        <a href="javascript:void(0);" onclick="showSection('grade-point-details')">Grade Point Details</a>
-    </nav>
-
-    <!-- Main Content Container -->
     <div class="container">
-        <!-- CGPA to Percentage Section -->
-        <div id="cgpa-to-percentage" class="form-section">
-            <h2>CGPA to Percentage Conversion</h2>
-            <form id="cgpaForm">
-                <div class="form-group">
-                    <label for="cgpaInput">Enter CGPA:</label>
-                    <input type="number" id="cgpaInput" step="0.01" placeholder="Enter CGPA">
-                </div>
-                <button type="button" onclick="calculatePercentageFromCGPA()">Convert</button>
-            </form>
 
-            <div id="cgpaResult" class="result">
-                <div class="result-row">
-                    <label>CGPA:</label>
-                    <span id="cgpaOutput"></span>
-                </div>
-                <div class="result-row">
-                    <label>Percentage:</label>
-                    <span id="percentageOutput"></span>
-                </div>
-                <div class="result-row">
-                    <label>Grade:</label>
-                    <span id="gradeOutput"></span>
-                </div>
-                <div class="result-row">
-                    <label>Class:</label>
-                    <span id="classOutput"></span>
-                </div>
-                <button class="download-button" onclick="downloadResult()">Download as .txt File</button>
-            </div>
+        <h2>SGPA to CGPA Calculation</h2>
+        <div class="form-group">
+            <label for="sgpaSum">Sum of SGPA:</label>
+            <input type="number" id="sgpaSum" step="0.01" placeholder="Enter sum of all SGPA">
+        </div>
+        <div class="form-group">
+            <label for="semesters">Number of Semesters:</label>
+            <input type="number" id="semesters" placeholder="Enter number of semesters">
+        </div>
+        <button onclick="calculateSGPA()">Convert SGPA to CGPA</button>
+
+        <h2 style="margin-top: 40px;">CGPA to Percentage Calculation</h2>
+        <div class="form-group">
+            <label for="cgpaInput">Enter CGPA:</label>
+            <input type="number" id="cgpaInput" step="0.01" placeholder="Enter CGPA">
         </div>
 
-        <!-- SGPA to CGPA Section -->
-        <div id="sgpa-to-cgpa" class="form-section hidden">
-            <h2>SGPA to CGPA Conversion</h2>
-            <form id="sgpaForm">
-                <div class="form-group">
-                    <label for="sumSgpaInput">Enter Sum of SGPA for All Semesters:</label>
-                    <input type="number" id="sumSgpaInput" step="0.01" placeholder="Enter sum of SGPA values for all semesters">
-                </div>
-                <div class="form-group">
-                    <label for="semestersInput">Enter Number of Semesters:</label>
-                    <input type="number" id="semestersInput" placeholder="Enter number of semesters" min="1">
-                </div>
-                <button type="button" onclick="calculateCGPAFromSumSGPA()">Convert</button>
-            </form>
+        <button onclick="calculateCGPAAndPercentage()">Convert CGPA to Percentage</button>
 
-            <div id="sgpaResult" class="result">
-                <div class="result-row">
-                    <label>Sum of SGPA:</label>
-                    <span id="sumSgpaOutput"></span>
-                </div>
-                <div class="result-row">
-                    <label>CGPA:</label>
-                    <span id="cgpaResultOutput"></span>
-                </div>
-            </div>
+        <div id="cgpaResult" class="result"></div>
+
+        <div class="button-group">
+            <button onclick="downloadResult('excel')">Download as Excel</button>
+            <button onclick="downloadResult('txt')">Download as Text</button>
         </div>
 
-        <!-- 10th Percentage Section -->
-        <div id="tenth-percentage" class="form-section hidden">
-            <h2>10th Percentage Calculator</h2>
-            <form id="tenthForm">
-                <div class="form-group">
-                    <label for="marksInput">Enter Marks:</label>
-                    <input type="number" id="marksInput" placeholder="Enter your 10th marks" min="0" max="100">
-                </div>
-                <div class="form-group">
-                    <label for="totalMarksInput">Enter Total Marks:</label>
-                    <input type="number" id="totalMarksInput" placeholder="Enter total marks" min="0" max="100">
-                </div>
-                <button type="button" onclick="calculateTenthPercentage()">Calculate</button>
-            </form>
-
-            <div id="tenthResult" class="result">
-                <div class="result-row">
-                    <label>Marks:</label>
-                    <span id="marksOutput"></span>
-                </div>
-                <div class="result-row">
-                    <label>Percentage:</label>
-                    <span id="percentageOutputTenth"></span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Grade Point Details Section -->
-        <div id="grade-point-details" class="form-section hidden">
-            <h2>Grade Point Details</h2>
-            <div class="grade-details">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Grade</th>
-                            <th>Grade Point</th>
-                            <th>Range</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>O</td>
-                            <td>10</td>
-                            <td>90-100%</td>
-                        </tr>
-                        <tr>
-                            <td>A+</td>
-                            <td>9</td>
-                            <td>80-89%</td>
-                        </tr>
-                        <tr>
-                            <td>A</td>
-                            <td>8</td>
-                            <td>70-79%</td>
-                        </tr>
-                        <tr>
-                            <td>B+</td>
-                            <td>7</td>
-                            <td>60-69%</td>
-                        </tr>
-                        <tr>
-                            <td>B</td>
-                            <td>6</td>
-                            <td>50-59%</td>
-                        </tr>
-                        <tr>
-                            <td>C</td>
-                            <td>5</td>
-                            <td>40-49%</td>
-                        </tr>
-                        <tr>
-                            <td>F</td>
-                            <td>0</td>
-                            <td>0-39%</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 SPPU. All Rights Reserved.</p>
-    </footer>
-
     <script>
-        // Show selected section
-        function showSection(sectionId) {
-            document.querySelectorAll('.form-section').forEach(function(section) {
-                section.classList.add('hidden');
-            });
-            document.getElementById(sectionId).classList.remove('hidden');
-        }
-
-        // Calculate CGPA from Sum of SGPA
-        function calculateCGPAFromSumSGPA() {
-            const sumSgpa = parseFloat(document.getElementById("sumSgpaInput").value);
-            const semesters = parseInt(document.getElementById("semestersInput").value);
-            if (isNaN(sumSgpa) || isNaN(semesters) || sumSgpa < 0 || semesters < 1) {
-                alert("Please enter valid sum of SGPA and number of semesters.");
-                return;
+        function calculateSGPA() {
+            const sgpaSum = parseFloat(document.getElementById("sgpaSum").value);
+            const semesters = parseInt(document.getElementById("semesters").value);
+            
+            if (!isNaN(sgpaSum) && !isNaN(semesters) && semesters > 0) {
+                const cgpa = sgpaSum / semesters;
+                document.getElementById("cgpaInput").value = cgpa.toFixed(2);  // Auto-fill CGPA field
+                calculateCGPAAndPercentage();  // Automatically calculate percentage
+            } else {
+                alert("Please enter valid SGPA sum and number of semesters.");
             }
-
-            const cgpa = sumSgpa / semesters;
-            document.getElementById("sumSgpaOutput").textContent = sumSgpa;
-            document.getElementById("cgpaResultOutput").textContent = cgpa.toFixed(2);
-
-            document.getElementById("sgpaResult").style.display = "block";
         }
-        
-        // CGPA to Percentage
-        function calculatePercentageFromCGPA() {
-            const cgpa = parseFloat(document.getElementById("cgpaInput").value);
+
+        function calculateCGPAAndPercentage() {
+            let cgpa = parseFloat(document.getElementById("cgpaInput").value);
+            const sgpaSum = parseFloat(document.getElementById("sgpaSum").value);
+            const semesters = parseInt(document.getElementById("semesters").value);
+            
+            if (!isNaN(sgpaSum) && !isNaN(semesters) && semesters > 0) {
+                cgpa = sgpaSum / semesters;
+            }
+            
             if (isNaN(cgpa) || cgpa < 0) {
-                alert("Please enter a valid CGPA.");
+                alert("Please enter a valid CGPA or SGPA values.");
                 return;
             }
-
-            const percentage = (cgpa - 0.5) * 10;
-            document.getElementById("cgpaOutput").textContent = cgpa.toFixed(2);
-            document.getElementById("percentageOutput").textContent = percentage.toFixed(2);
-
-            let grade = "";
-            if (cgpa >= 9) grade = "O (Outstanding)";
-            else if (cgpa >= 8) grade = "A+ (Excellent)";
-            else if (cgpa >= 7) grade = "A (Very Good)";
-            else if (cgpa >= 6) grade = "B+ (Good)";
-            else if (cgpa >= 5) grade = "B (Average)";
-            else grade = "F (Fail)";
-
-            document.getElementById("gradeOutput").textContent = grade;
-
-            let studentClass = "";
-            if (cgpa >= 9) studentClass = "First Class with Distinction";
-            else if (cgpa >= 7) studentClass = "First Class";
-            else if (cgpa >= 5) studentClass = "Second Class";
-            else studentClass = "Fail";
-
-            document.getElementById("classOutput").textContent = studentClass;
-
+            
+            let percentage = 0, grade = "", classification = "";
+            if (cgpa >= 9.5) { percentage = 100; grade = "O (Outstanding)"; classification = "First Class with Distinction"; }
+            else if (cgpa >= 8.25) { percentage = (12 * cgpa) - 25; grade = "A+ (Excellent)"; classification = "First Class with Distinction"; }
+            else if (cgpa >= 6.75) { percentage = (10 * cgpa) - 7.5; grade = "A (Very Good)"; classification = "First Class"; }
+            else if (cgpa >= 5.75) { percentage = (5 * cgpa) - 26.25; grade = "B+ (Good)"; classification = "Higher Second Class"; }
+            else if (cgpa >= 5.25) { percentage = (10 * cgpa) - 2.5; grade = "B (Above Average)"; classification = "Second Class"; }
+            else if (cgpa >= 4.75) { percentage = (10 * cgpa) - 2.5; grade = "C (Average)"; classification = "Pass Class"; }
+            else if (cgpa >= 4.0) { percentage = (6.6 * cgpa) + 13.6; grade = "D (Pass)"; classification = "Pass"; }
+            else { percentage = 0; grade = "F (Fail)"; classification = "Fail"; }
+            
+            document.getElementById("cgpaResult").innerHTML = ` 
+                <p><b>CGPA:</b> ${cgpa.toFixed(2)}</p>
+                <p><b>Percentage:</b> ${percentage.toFixed(1)}%</p>  <!-- One decimal place -->
+                <p><b>Grade:</b> ${grade}</p>
+                <p><b>Class:</b> ${classification}</p>`;
             document.getElementById("cgpaResult").style.display = "block";
         }
-
-        // Download Result
-        function downloadResult() {
-            const cgpa = document.getElementById("cgpaOutput").textContent;
-            const percentage = document.getElementById("percentageOutput").textContent;
-            const grade = document.getElementById("gradeOutput").textContent;
-            const studentClass = document.getElementById("classOutput").textContent;
-
-            const resultText = `CGPA: ${cgpa}\nPercentage: ${percentage}\nGrade: ${grade}\nClass: ${studentClass}`;
-
-            const blob = new Blob([resultText], { type: 'text/plain' });
-            const link = document.createElement('a');
+        
+        function downloadResult(type) {
+            let content = document.getElementById("cgpaResult").innerText;
+            let filename = type === 'excel' ? 'cgpa_result.xlsx' : 'cgpa_result.txt';
+            let blob = new Blob([content], { type: type === 'excel' ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' : 'text/plain' });
+            let link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
-            link.download = 'result.txt';
+            link.download = filename;
             link.click();
-        }
-
-        // Calculate 10th Percentage
-        function calculateTenthPercentage() {
-            const marks = parseFloat(document.getElementById("marksInput").value);
-            const totalMarks = parseFloat(document.getElementById("totalMarksInput").value);
-
-            if (isNaN(marks) || isNaN(totalMarks) || marks < 0 || totalMarks <= 0 || marks > totalMarks) {
-                alert("Please enter valid marks and total marks.");
-                return;
-            }
-
-            const percentage = (marks / totalMarks) * 100;
-            document.getElementById("marksOutput").textContent = marks;
-            document.getElementById("percentageOutputTenth").textContent = percentage.toFixed(2);
-
-            document.getElementById("tenthResult").style.display = "block";
         }
     </script>
 </body>

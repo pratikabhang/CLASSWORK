@@ -3,29 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPA & SGPA Calculator - SPPU</title>
+    <title>GPA Calculator - SPPU</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f7fc; /* Light Blue background */
             margin: 0;
             padding: 0;
-            background: #f8f9fa;
         }
         header {
-            background-color: #FF9800;
+            background-color: #FF9800; /* Light Orange/Yellow */
             color: white;
             padding: 20px;
             text-align: center;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .container {
             max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            background: white;
+            margin: 50px auto;
+            padding: 30px;
+            background: #ffffff;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
         }
         .form-group {
             margin-bottom: 20px;
@@ -33,44 +37,115 @@
         label {
             font-weight: bold;
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            color: #333;
         }
         input {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             border: 1px solid #ddd;
-            border-radius: 5px;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            border-color: #FF9800;
+            outline: none;
         }
         button {
             width: 100%;
-            background-color: #FF9800;
+            background-color: #FF9800; /* Light Orange */
             color: white;
-            padding: 10px;
+            padding: 12px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            margin-top: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+        button:hover {
+            background-color: #f57c00;
         }
         .result {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #e8f5e9;
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #e8f5e9; /* Light Green */
             border-left: 5px solid #4caf50;
-            border-radius: 5px;
+            border-radius: 8px;
             display: none;
+            animation: slideIn 0.5s ease-out;
         }
         .button-group {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             flex-wrap: wrap;
         }
         .button-group button {
             width: 48%;
+            transition: all 0.3s ease;
+        }
+        .button-group button:hover {
+            transform: scale(1.05);
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        footer {
+            background-color: #333; /* Dark Gray */
+            color: white;
+            text-align: center;
+            padding: 15px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            margin-top: 50px;
+        }
+        footer a {
+            color: #FF9800;
+            text-decoration: none;
+        }
+        .download-btn {
+            margin-top: 20px;
+            display: block;
+            width: 200px;
+            padding: 10px;
+            background-color: #FF9800;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .download-btn:hover {
+            background-color: #f57c00;
         }
     </style>
 </head>
 <body>
-    <header>GPA & SGPA Calculator - SPPU</header>
+    <header>GPA Calculator - SPPU</header>
 
     <div class="container">
 
@@ -95,12 +170,17 @@
 
         <div id="cgpaResult" class="result"></div>
 
-        <div class="button-group">
-            <button onclick="downloadResult('excel')">Download as Excel</button>
-            <button onclick="downloadResult('txt')">Download as Text</button>
-        </div>
+        <!-- Centered download button -->
+        <button class="download-btn" onclick="downloadResult()">Download as Text</button>
 
     </div>
+
+    <footer>
+        <p>Note: This conversion is based on SPPU 2019 rulebook and Circular No. 322/2020</p>
+        <div>
+            <button onclick="downloadImage()">Download Image</button>
+        </div>
+    </footer>
 
     <script>
         function calculateSGPA() {
@@ -142,19 +222,40 @@
             
             document.getElementById("cgpaResult").innerHTML = ` 
                 <p><b>CGPA:</b> ${cgpa.toFixed(2)}</p>
-                <p><b>Percentage:</b> ${percentage.toFixed(1)}%</p>  <!-- One decimal place -->
+                <p><b>Percentage:</b> ${percentage.toFixed(1)}%</p>
                 <p><b>Grade:</b> ${grade}</p>
                 <p><b>Class:</b> ${classification}</p>`;
             document.getElementById("cgpaResult").style.display = "block";
         }
         
-        function downloadResult(type) {
-            let content = document.getElementById("cgpaResult").innerText;
-            let filename = type === 'excel' ? 'cgpa_result.xlsx' : 'cgpa_result.txt';
-            let blob = new Blob([content], { type: type === 'excel' ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' : 'text/plain' });
-            let link = document.createElement("a");
+        function downloadResult() {
+            const sgpaSum = document.getElementById("sgpaSum").value;
+            const semesters = document.getElementById("semesters").value;
+            const cgpa = document.getElementById("cgpaInput").value;
+            const percentage = document.querySelector("#cgpaResult p:nth-child(2)").textContent.split(":")[1].trim();
+            const grade = document.querySelector("#cgpaResult p:nth-child(3)").textContent.split(":")[1].trim();
+            const classification = document.querySelector("#cgpaResult p:nth-child(4)").textContent.split(":")[1].trim();
+
+            const content = `
+                SGPA Sum: ${sgpaSum}
+                Number of Semesters: ${semesters}
+                CGPA: ${cgpa}
+                Percentage: ${percentage}
+                Grade: ${grade}
+                Classification: ${classification}
+            `;
+            
+            const blob = new Blob([content], { type: 'text/plain' });
+            const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
-            link.download = filename;
+            link.download = 'gpa_calculation_result.txt';
+            link.click();
+        }
+
+        function downloadImage() {
+            const link = document.createElement("a");
+            link.href = 'sppu.jpg';  // Path to the image file
+            link.download = 'sppu.jpg';
             link.click();
         }
     </script>

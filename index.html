@@ -129,7 +129,7 @@
             display: block;
             width: 200px;
             padding: 10px;
-            background-color: #FF9800;
+            background-color: #4caf50; /* Green color */
             color: white;
             font-size: 16px;
             text-align: center;
@@ -140,7 +140,66 @@
             transition: all 0.3s ease;
         }
         .download-btn:hover {
-            background-color: #f57c00;
+            background-color: #388e3c;
+        }
+
+        /* Updated Download Image button style - Blue */
+        .download-image-btn {
+            margin-top: 20px;
+            display: block;
+            width: 200px;
+            padding: 10px;
+            background-color: #2196F3; /* Blue color */
+            color: white;
+            font-size: 16px;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .download-image-btn:hover {
+            background-color: #1976D2; /* Darker Blue */
+        }
+
+        /* Updated GPA Calculator button color - Red */
+        .gpa-calculator-btn {
+            width: 100%;
+            background-color: #f44336; /* Red */
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .gpa-calculator-btn:hover {
+            background-color: #d32f2f; /* Darker Red */
+        }
+
+        /* Updated Convert CGPA to Percentage button style - Red */
+        .convert-cgpa-btn {
+            width: 100%;
+            background-color: #f44336; /* Red */
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .convert-cgpa-btn:hover {
+            background-color: #d32f2f; /* Darker Red */
         }
     </style>
 </head>
@@ -158,7 +217,7 @@
             <label for="semesters">Number of Semesters:</label>
             <input type="number" id="semesters" placeholder="Enter number of semesters">
         </div>
-        <button onclick="calculateSGPA()">Convert SGPA to CGPA</button>
+        <button class="gpa-calculator-btn" onclick="calculateSGPA()">Convert SGPA to CGPA</button>
 
         <h2 style="margin-top: 40px;">CGPA to Percentage Calculation</h2>
         <div class="form-group">
@@ -166,7 +225,7 @@
             <input type="number" id="cgpaInput" step="0.01" placeholder="Enter CGPA">
         </div>
 
-        <button onclick="calculateCGPAAndPercentage()">Convert CGPA to Percentage</button>
+        <button class="convert-cgpa-btn" onclick="calculateCGPAAndPercentage()">Convert CGPA to Percentage</button>
 
         <div id="cgpaResult" class="result"></div>
 
@@ -178,7 +237,7 @@
     <footer>
         <p>Note: This conversion is based on SPPU 2019 rulebook and Circular No. 322/2020</p>
         <div>
-            <button onclick="downloadImage()">Download Image</button>
+            <button class="download-image-btn" onclick="downloadImage()">Download Image</button>
         </div>
     </footer>
 

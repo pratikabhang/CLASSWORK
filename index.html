@@ -5,343 +5,583 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPA Calculator - SPPU</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f4f7fc; /* Light Blue background */
+        :root {
+            --primary: #FF9800;
+            --primary-dark: #F57C00;
+            --secondary: #2196F3;
+            --secondary-dark: #1976D2;
+            --success: #4CAF50;
+            --success-dark: #388E3C;
+            --danger: #F44336;
+            --danger-dark: #D32F2F;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --info-bg: #e7f3fe;
+            --info-border: #2196F3;
+            --result-bg: #e8f5e9;
+            --result-border: #4CAF50;
+        }
+        
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f7fc;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
         header {
-            background-color: #FF9800; /* Light Orange/Yellow */
+            background-color: var(--primary);
             color: white;
-            padding: 20px;
+            padding: 25px;
             text-align: center;
             font-size: 28px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 2px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
         }
+        
+        header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-dark), var(--primary), var(--primary-dark));
+            animation: headerGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes headerGlow {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
         .container {
-            max-width: 800px;
-            margin: 50px auto;
+            max-width: 900px;
+            margin: 40px auto;
             padding: 30px;
             background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 1s ease-in-out;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            animation: fadeInUp 0.8s ease-out;
         }
-        .form-group {
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        h2 {
+            color: var(--primary);
             margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+            position: relative;
+            animation: slideInLeft 0.6s ease-out;
         }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary-dark);
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
         label {
-            font-weight: bold;
+            font-weight: 600;
             display: block;
             margin-bottom: 8px;
-            color: #333;
+            color: #444;
+            transition: all 0.3s;
         }
+        
         input, select {
             width: 100%;
-            padding: 10px;
+            padding: 12px 15px;
             border: 1px solid #ddd;
             border-radius: 8px;
             font-size: 16px;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
+            background-color: #f9f9f9;
         }
+        
         input:focus, select:focus {
-            border-color: #FF9800;
+            border-color: var(--primary);
             outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.2);
+            background-color: white;
         }
+        
         button {
             width: 100%;
-            background-color: #FF9800; /* Light Orange */
-            color: white;
-            padding: 12px;
+            padding: 14px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-weight: 600;
             transition: all 0.3s ease;
             margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
+        
         button:hover {
-            background-color: #f57c00;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
         .result {
             margin-top: 25px;
             padding: 20px;
-            background-color: #e8f5e9; /* Light Green */
-            border-left: 5px solid #4caf50;
+            background-color: var(--result-bg);
+            border-left: 5px solid var(--result-border);
             border-radius: 8px;
             display: none;
-            animation: slideIn 0.5s ease-out;
+            animation: slideInUp 0.5s ease-out;
         }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .result p {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .result p b {
+            color: var(--dark);
+        }
+        
         .button-group {
             display: flex;
             gap: 15px;
             flex-wrap: wrap;
         }
+        
         .button-group button {
             width: 48%;
             transition: all 0.3s ease;
         }
-        .button-group button:hover {
-            transform: scale(1.05);
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        footer {
-            background-color: #333; /* Dark Gray */
-            color: white;
-            text-align: center;
-            padding: 15px;
-            position: relative;
-            bottom: 0;
-            width: 100%;
-            margin-top: 50px;
-        }
-        footer a {
-            color: #FF9800;
-            text-decoration: none;
-        }
+        
         .download-btn {
             margin-top: 20px;
-            display: block;
             width: 200px;
-            padding: 10px;
-            background-color: #4caf50; /* Green color */
+            padding: 12px;
+            background-color: var(--success);
             color: white;
             font-size: 16px;
-            text-align: center;
             margin-left: auto;
             margin-right: auto;
             border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
         }
+        
         .download-btn:hover {
-            background-color: #388e3c;
+            background-color: var(--success-dark);
         }
+        
         .download-image-btn {
-            margin-top: 20px;
-            display: block;
+            margin-top: 15px;
             width: 200px;
-            padding: 10px;
-            background-color: #2196F3; /* Blue color */
+            padding: 12px;
+            background-color: var(--secondary);
             color: white;
             font-size: 16px;
-            text-align: center;
             margin-left: auto;
             margin-right: auto;
             border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
         }
+        
         .download-image-btn:hover {
-            background-color: #1976D2; /* Darker Blue */
+            background-color: var(--secondary-dark);
         }
+        
         .gpa-calculator-btn {
-            width: 100%;
-            background-color: #f44336; /* Red */
+            background-color: var(--danger);
             color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            margin-bottom: 20px;
         }
+        
         .gpa-calculator-btn:hover {
-            background-color: #d32f2f; /* Darker Red */
+            background-color: var(--danger-dark);
         }
+        
         .convert-cgpa-btn {
-            width: 100%;
-            background-color: #f44336; /* Red */
+            background-color: var(--danger);
             color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
         }
+        
         .convert-cgpa-btn:hover {
-            background-color: #d32f2f; /* Darker Red */
+            background-color: var(--danger-dark);
         }
+        
         .course-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            animation: fadeIn 0.8s ease-out;
         }
+        
         .course-table th, .course-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
             text-align: left;
         }
+        
         .course-table th {
-            background-color: #f2f2f2;
+            background-color: #f5f5f5;
+            font-weight: 600;
+            color: #444;
         }
+        
+        .course-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .course-table tr:hover {
+            background-color: #f1f1f1;
+        }
+        
         .add-row-btn {
-            background-color: #4CAF50;
-            margin-bottom: 20px;
+            background-color: var(--success);
+            color: white;
+            margin-bottom: 25px;
         }
+        
         .add-row-btn:hover {
-            background-color: #45a049;
+            background-color: var(--success-dark);
         }
+        
+        .remove-btn {
+            background-color: #f44336;
+            color: white;
+            padding: 8px 12px;
+            font-size: 14px;
+            width: auto;
+            margin: 0;
+        }
+        
+        .remove-btn:hover {
+            background-color: #d32f2f;
+        }
+        
         .info-box {
-            background-color: #e7f3fe;
-            border-left: 6px solid #2196F3;
-            padding: 15px;
-            margin-bottom: 20px;
+            background-color: var(--info-bg);
+            border-left: 6px solid var(--info-border);
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 0 8px 8px 0;
+            animation: fadeIn 0.8s ease-out;
         }
+        
         .info-box h3 {
             margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--info-border);
+        }
+        
+        .info-box table {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        
+        .info-box p {
+            margin-bottom: 10px;
+        }
+        
+        .info-box strong {
+            color: var(--dark);
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+            margin-bottom: 20px;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+        }
+        
+        footer p {
+            margin-bottom: 10px;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 20px;
+            }
+            
+            .button-group button {
+                width: 100%;
+            }
+            
+            .course-table {
+                font-size: 14px;
+            }
+            
+            .course-table th, .course-table td {
+                padding: 8px;
+            }
         }
     </style>
 </head>
 <body>
-    <header>GPA Calculator - SPPU</header>
+    <header class="pulse">
+        GPA Calculator - SPPU
+    </header>
 
     <div class="container">
-        <div class="info-box">
-            <h3>Letter Grades and Grade Points</h3>
-            <table class="course-table">
-                <tr>
-                    <th>Letter</th>
-                    <th>Percentage</th>
-                    <th>Points</th>
-                </tr>
-                <tr>
-                    <td>O</td>
-                    <td>75-100</td>
-                    <td>6</td>
-                </tr>
-                <tr>
-                    <td>A</td>
-                    <td>65-74</td>
-                    <td>5</td>
-                </tr>
-                <tr>
-                    <td>B</td>
-                    <td>55-64</td>
-                    <td>4</td>
-                </tr>
-                <tr>
-                    <td>C</td>
-                    <td>50-54</td>
-                    <td>3</td>
-                </tr>
-                <tr>
-                    <td>D</td>
-                    <td>45-49</td>
-                    <td>2</td>
-                </tr>
-                <tr>
-                    <td>E</td>
-                    <td>40-44</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td>F</td>
-                    <td>0-39</td>
-                    <td>0</td>
-                </tr>
+        <div class="section">
+            <div class="info-box">
+                <h3>Letter Grades and Grade Points</h3>
+                <table class="course-table">
+                    <tr>
+                        <th>Letter</th>
+                        <th>Percentage</th>
+                        <th>Points</th>
+                    </tr>
+                    <tr>
+                        <td>O</td>
+                        <td>75-100</td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td>65-74</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>B</td>
+                        <td>55-64</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>C</td>
+                        <td>50-54</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>D</td>
+                        <td>45-49</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>E</td>
+                        <td>40-44</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>F</td>
+                        <td>0-39</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+                <p><strong>Formula:</strong> GPA = Total Grade Points / Total Credits</p>
+                <p><strong>Example Calculation:</strong></p>
+                <p>Course 1: 3 credits, Grade: O (6)<br>
+                Course 2: 4 credits, Grade: B (4)<br>
+                Course 3: 2 credits, Grade: C (3)</p>
+                <p>Total Grade Points = (3×6) + (4×4) + (2×3) = 18 + 16 + 6 = 40</p>
+                <p>Total Credits = 3 + 4 + 2 = 9</p>
+                <p>GPA = 40 / 9 ≈ 4.44</p>
+            </div>
+
+            <h2>GPA Calculation</h2>
+            <table id="courseTable" class="course-table">
+                <thead>
+                    <tr>
+                        <th>Course</th>
+                        <th>Credits</th>
+                        <th>Grade</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Course 1</td>
+                        <td><input type="number" class="credits" min="1" value="3"></td>
+                        <td>
+                            <select class="grade">
+                                <option value="6">O (6)</option>
+                                <option value="5">A (5)</option>
+                                <option value="4">B (4)</option>
+                                <option value="3">C (3)</option>
+                                <option value="2">D (2)</option>
+                                <option value="1">E (1)</option>
+                                <option value="0">F (0)</option>
+                            </select>
+                        </td>
+                        <td><button class="remove-btn" onclick="removeRow(this)">Remove</button></td>
+                    </tr>
+                </tbody>
             </table>
-            <p><strong>Formula:</strong> GPA = Total Grade Points / Total Credits</p>
+            <button class="add-row-btn" onclick="addRow()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg>
+                Add Course
+            </button>
+            <button class="gpa-calculator-btn" onclick="calculateGPA()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M7.5 7.793V4.5a.5.5 0 0 1 1 0v3.293l1.854 1.853a.5.5 0 0 1-.708.708l-2-2a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L7.5 7.793z"/>
+                </svg>
+                Calculate GPA
+            </button>
+            <div id="gpaResult" class="result"></div>
         </div>
 
-        <h2>GPA Calculation</h2>
-        <table id="courseTable" class="course-table">
-            <thead>
-                <tr>
-                    <th>Course</th>
-                    <th>Credits</th>
-                    <th>Grade</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Course 1</td>
-                    <td><input type="number" class="credits" min="1" value="3"></td>
-                    <td>
-                        <select class="grade">
-                            <option value="6">O (6)</option>
-                            <option value="5">A (5)</option>
-                            <option value="4">B (4)</option>
-                            <option value="3">C (3)</option>
-                            <option value="2">D (2)</option>
-                            <option value="1">E (1)</option>
-                            <option value="0">F (0)</option>
-                        </select>
-                    </td>
-                    <td><button class="remove-btn" onclick="removeRow(this)">Remove</button></td>
-                </tr>
-            </tbody>
-        </table>
-        <button class="add-row-btn" onclick="addRow()">Add Course</button>
-        <button class="gpa-calculator-btn" onclick="calculateGPA()">Calculate GPA</button>
-        <div id="gpaResult" class="result"></div>
-
-        <h2>SGPA to CGPA Calculation</h2>
-        <div class="form-group">
-            <label for="sgpaSum">Sum of SGPA:</label>
-            <input type="number" id="sgpaSum" step="0.01" placeholder="Enter sum of all SGPA">
-        </div>
-        <div class="form-group">
-            <label for="semesters">Number of Semesters:</label>
-            <input type="number" id="semesters" placeholder="Enter number of semesters">
-        </div>
-        <button class="gpa-calculator-btn" onclick="calculateSGPA()">Convert SGPA to CGPA</button>
-
-        <h2 style="margin-top: 40px;">SGPA or CGPA to Percentage Calculation</h2>
-        <div class="form-group">
-            <label for="cgpaInput">Enter CGPA:</label>
-            <input type="number" id="cgpaInput" step="0.01" placeholder="Enter CGPA">
+        <div class="section">
+            <h2>SGPA to CGPA Calculation</h2>
+            <div class="form-group">
+                <label for="sgpaSum">Sum of SGPA:</label>
+                <input type="number" id="sgpaSum" step="0.01" placeholder="Enter sum of all SGPA">
+            </div>
+            <div class="form-group">
+                <label for="semesters">Number of Semesters:</label>
+                <input type="number" id="semesters" placeholder="Enter number of semesters">
+            </div>
+            <button class="gpa-calculator-btn" onclick="calculateSGPA()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M7.5 7.793V4.5a.5.5 0 0 1 1 0v3.293l1.854 1.853a.5.5 0 0 1-.708.708l-2-2a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L7.5 7.793z"/>
+                </svg>
+                Convert SGPA to CGPA
+            </button>
         </div>
 
-        <button class="convert-cgpa-btn" onclick="calculateCGPAAndPercentage()">Convert CGPA to Percentage</button>
+        <div class="section">
+            <h2>SGPA or CGPA to Percentage Calculation</h2>
+            <div class="form-group">
+                <label for="cgpaInput">Enter CGPA:</label>
+                <input type="number" id="cgpaInput" step="0.01" placeholder="Enter CGPA">
+            </div>
 
-        <div id="cgpaResult" class="result"></div>
+            <button class="convert-cgpa-btn" onclick="calculateCGPAAndPercentage()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M7.5 7.793V4.5a.5.5 0 0 1 1 0v3.293l1.854 1.853a.5.5 0 0 1-.708.708l-2-2a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L7.5 7.793z"/>
+                </svg>
+                Convert CGPA to Percentage
+            </button>
 
-        <!-- Centered download button -->
-        <button class="download-btn" onclick="downloadResult()">Download as Text</button>
+            <div id="cgpaResult" class="result"></div>
+        </div>
 
+        <button class="download-btn" onclick="downloadResult()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+            </svg>
+            Download as Text
+        </button>
     </div>
 
     <footer>
         <p>Note: This conversion is based on SPPU 2019 rulebook and Circular No. 322/2020</p>
         <div>
-            <button class="download-image-btn" onclick="downloadImage()">Download Image</button>
+            <button class="download-image-btn" onclick="downloadImage()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                </svg>
+                Download Image
+            </button>
         </div>
     </footer>
 
     <script>
+        // Add animations to elements when they come into view
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.section, .info-box, .form-group');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (elementPosition < screenPosition) {
+                    element.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', animateOnScroll);
+        document.addEventListener('DOMContentLoaded', animateOnScroll);
+
         function addRow() {
             const table = document.getElementById("courseTable").getElementsByTagName('tbody')[0];
             const rowCount = table.rows.length;
@@ -374,18 +614,33 @@
             
             const cell4 = row.insertCell(3);
             cell4.innerHTML = '<button class="remove-btn" onclick="removeRow(this)">Remove</button>';
+            
+            // Animate the new row
+            row.style.opacity = "0";
+            row.style.transform = "translateY(20px)";
+            setTimeout(() => {
+                row.style.transition = "all 0.4s ease-out";
+                row.style.opacity = "1";
+                row.style.transform = "translateY(0)";
+            }, 10);
         }
         
         function removeRow(btn) {
             const row = btn.parentNode.parentNode;
             const table = document.getElementById("courseTable").getElementsByTagName('tbody')[0];
             if (table.rows.length > 1) {
-                row.parentNode.removeChild(row);
-                // Update course numbers
-                const rows = table.rows;
-                for (let i = 0; i < rows.length; i++) {
-                    rows[i].cells[0].innerHTML = "Course " + (i + 1);
-                }
+                // Animate row removal
+                row.style.transition = "all 0.3s ease-out";
+                row.style.opacity = "0";
+                row.style.transform = "translateX(-100px)";
+                setTimeout(() => {
+                    row.parentNode.removeChild(row);
+                    // Update course numbers
+                    const rows = table.rows;
+                    for (let i = 0; i < rows.length; i++) {
+                        rows[i].cells[0].innerHTML = "Course " + (i + 1);
+                    }
+                }, 300);
             } else {
                 alert("You need at least one course to calculate GPA.");
             }
@@ -403,6 +658,11 @@
                 const gradePoints = parseFloat(gradeSelects[i].value);
                 
                 if (isNaN(credits) || credits <= 0) {
+                    // Shake animation for invalid input
+                    creditInputs[i].style.animation = "shake 0.5s";
+                    setTimeout(() => {
+                        creditInputs[i].style.animation = "";
+                    }, 500);
                     alert("Please enter valid credits for all courses.");
                     return;
                 }
@@ -421,9 +681,15 @@
             document.getElementById("gpaResult").innerHTML = `
                 <p><b>Total Credits:</b> ${totalCredits.toFixed(2)}</p>
                 <p><b>Total Grade Points:</b> ${totalGradePoints.toFixed(2)}</p>
-                <p><b>GPA:</b> ${gpa.toFixed(2)}</p>
+                <p><b>GPA:</b> <span style="font-size: 1.2em; color: var(--danger);">${gpa.toFixed(2)}</span></p>
             `;
             document.getElementById("gpaResult").style.display = "block";
+            
+            // Pulse animation for the result
+            document.getElementById("gpaResult").classList.add("pulse");
+            setTimeout(() => {
+                document.getElementById("gpaResult").classList.remove("pulse");
+            }, 2000);
         }
 
         function calculateSGPA() {
@@ -432,9 +698,19 @@
             
             if (!isNaN(sgpaSum) && !isNaN(semesters) && semesters > 0) {
                 const cgpa = sgpaSum / semesters;
-                document.getElementById("cgpaInput").value = cgpa.toFixed(2);  // Auto-fill CGPA field
-                calculateCGPAAndPercentage();  // Automatically calculate percentage
+                document.getElementById("cgpaInput").value = cgpa.toFixed(2);
+                calculateCGPAAndPercentage();
             } else {
+                // Shake animation for invalid input
+                const inputs = [document.getElementById("sgpaSum"), document.getElementById("semesters")];
+                inputs.forEach(input => {
+                    if (isNaN(parseFloat(input.value)) || (input.id === "semesters" && parseFloat(input.value) <= 0)) {
+                        input.style.animation = "shake 0.5s";
+                        setTimeout(() => {
+                            input.style.animation = "";
+                        }, 500);
+                    }
+                });
                 alert("Please enter valid SGPA sum and number of semesters.");
             }
         }
@@ -449,6 +725,11 @@
             }
             
             if (isNaN(cgpa) || cgpa < 0) {
+                // Shake animation for invalid input
+                document.getElementById("cgpaInput").style.animation = "shake 0.5s";
+                setTimeout(() => {
+                    document.getElementById("cgpaInput").style.animation = "";
+                }, 500);
                 alert("Please enter a valid CGPA or SGPA values.");
                 return;
             }
@@ -464,11 +745,17 @@
             else { percentage = 0; grade = "F (Fail)"; classification = "Fail"; }
             
             document.getElementById("cgpaResult").innerHTML = ` 
-                <p><b>CGPA:</b> ${cgpa.toFixed(2)}</p>
-                <p><b>Percentage:</b> ${percentage.toFixed(1)}%</p>
+                <p><b>CGPA:</b> <span style="color: var(--danger);">${cgpa.toFixed(2)}</span></p>
+                <p><b>Percentage:</b> <span style="color: var(--danger);">${percentage.toFixed(1)}%</span></p>
                 <p><b>Grade:</b> ${grade}</p>
                 <p><b>Class:</b> ${classification}</p>`;
             document.getElementById("cgpaResult").style.display = "block";
+            
+            // Pulse animation for the result
+            document.getElementById("cgpaResult").classList.add("pulse");
+            setTimeout(() => {
+                document.getElementById("cgpaResult").classList.remove("pulse");
+            }, 2000);
         }
         
         function downloadResult() {
@@ -519,14 +806,37 @@ Generated on: ${new Date().toLocaleString()}
             link.href = URL.createObjectURL(blob);
             link.download = 'sppu_gpa_calculation_result.txt';
             link.click();
+            
+            // Button click animation
+            event.target.classList.add("pulse");
+            setTimeout(() => {
+                event.target.classList.remove("pulse");
+            }, 1000);
         }
 
         function downloadImage() {
             const link = document.createElement("a");
-            link.href = 'sppu.jpg';  // Path to the image file
+            link.href = 'sppu.jpg';
             link.download = 'sppu.jpg';
             link.click();
+            
+            // Button click animation
+            event.target.classList.add("pulse");
+            setTimeout(() => {
+                event.target.classList.remove("pulse");
+            }, 1000);
         }
+        
+        // Add shake animation for invalid inputs
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                20%, 60% { transform: translateX(-5px); }
+                40%, 80% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>

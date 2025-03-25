@@ -40,7 +40,7 @@
             margin-bottom: 8px;
             color: #333;
         }
-        input {
+        input, select {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
@@ -48,7 +48,7 @@
             font-size: 16px;
             transition: border-color 0.3s;
         }
-        input:focus {
+        input:focus, select:focus {
             border-color: #FF9800;
             outline: none;
         }
@@ -142,8 +142,6 @@
         .download-btn:hover {
             background-color: #388e3c;
         }
-
-        /* Updated Download Image button style - Blue */
         .download-image-btn {
             margin-top: 20px;
             display: block;
@@ -162,8 +160,6 @@
         .download-image-btn:hover {
             background-color: #1976D2; /* Darker Blue */
         }
-
-        /* Updated GPA Calculator button color - Red */
         .gpa-calculator-btn {
             width: 100%;
             background-color: #f44336; /* Red */
@@ -178,12 +174,9 @@
             transition: all 0.3s ease;
             margin-bottom: 20px;
         }
-
         .gpa-calculator-btn:hover {
             background-color: #d32f2f; /* Darker Red */
         }
-
-        /* Updated Convert CGPA to Percentage button style - Red */
         .convert-cgpa-btn {
             width: 100%;
             background-color: #f44336; /* Red */
@@ -197,9 +190,37 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
         }
-
         .convert-cgpa-btn:hover {
             background-color: #d32f2f; /* Darker Red */
+        }
+        .course-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .course-table th, .course-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .course-table th {
+            background-color: #f2f2f2;
+        }
+        .add-row-btn {
+            background-color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        .add-row-btn:hover {
+            background-color: #45a049;
+        }
+        .info-box {
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .info-box h3 {
+            margin-top: 0;
         }
     </style>
 </head>
@@ -207,6 +228,85 @@
     <header>GPA Calculator - SPPU</header>
 
     <div class="container">
+        <div class="info-box">
+            <h3>Letter Grades and Grade Points</h3>
+            <table class="course-table">
+                <tr>
+                    <th>Letter</th>
+                    <th>Percentage</th>
+                    <th>Points</th>
+                </tr>
+                <tr>
+                    <td>O</td>
+                    <td>75-100</td>
+                    <td>6</td>
+                </tr>
+                <tr>
+                    <td>A</td>
+                    <td>65-74</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>B</td>
+                    <td>55-64</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>C</td>
+                    <td>50-54</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>D</td>
+                    <td>45-49</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>E</td>
+                    <td>40-44</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>F</td>
+                    <td>0-39</td>
+                    <td>0</td>
+                </tr>
+            </table>
+            <p><strong>Formula:</strong> GPA = Total Grade Points / Total Credits</p>
+        </div>
+
+        <h2>GPA Calculation</h2>
+        <table id="courseTable" class="course-table">
+            <thead>
+                <tr>
+                    <th>Course</th>
+                    <th>Credits</th>
+                    <th>Grade</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Course 1</td>
+                    <td><input type="number" class="credits" min="1" value="3"></td>
+                    <td>
+                        <select class="grade">
+                            <option value="6">O (6)</option>
+                            <option value="5">A (5)</option>
+                            <option value="4">B (4)</option>
+                            <option value="3">C (3)</option>
+                            <option value="2">D (2)</option>
+                            <option value="1">E (1)</option>
+                            <option value="0">F (0)</option>
+                        </select>
+                    </td>
+                    <td><button class="remove-btn" onclick="removeRow(this)">Remove</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="add-row-btn" onclick="addRow()">Add Course</button>
+        <button class="gpa-calculator-btn" onclick="calculateGPA()">Calculate GPA</button>
+        <div id="gpaResult" class="result"></div>
 
         <h2>SGPA to CGPA Calculation</h2>
         <div class="form-group">
@@ -242,6 +342,90 @@
     </footer>
 
     <script>
+        function addRow() {
+            const table = document.getElementById("courseTable").getElementsByTagName('tbody')[0];
+            const rowCount = table.rows.length;
+            const row = table.insertRow(rowCount);
+            
+            const cell1 = row.insertCell(0);
+            cell1.innerHTML = "Course " + (rowCount + 1);
+            
+            const cell2 = row.insertCell(1);
+            const creditInput = document.createElement("input");
+            creditInput.type = "number";
+            creditInput.className = "credits";
+            creditInput.min = "1";
+            creditInput.value = "3";
+            cell2.appendChild(creditInput);
+            
+            const cell3 = row.insertCell(2);
+            const gradeSelect = document.createElement("select");
+            gradeSelect.className = "grade";
+            gradeSelect.innerHTML = `
+                <option value="6">O (6)</option>
+                <option value="5">A (5)</option>
+                <option value="4">B (4)</option>
+                <option value="3">C (3)</option>
+                <option value="2">D (2)</option>
+                <option value="1">E (1)</option>
+                <option value="0">F (0)</option>
+            `;
+            cell3.appendChild(gradeSelect);
+            
+            const cell4 = row.insertCell(3);
+            cell4.innerHTML = '<button class="remove-btn" onclick="removeRow(this)">Remove</button>';
+        }
+        
+        function removeRow(btn) {
+            const row = btn.parentNode.parentNode;
+            const table = document.getElementById("courseTable").getElementsByTagName('tbody')[0];
+            if (table.rows.length > 1) {
+                row.parentNode.removeChild(row);
+                // Update course numbers
+                const rows = table.rows;
+                for (let i = 0; i < rows.length; i++) {
+                    rows[i].cells[0].innerHTML = "Course " + (i + 1);
+                }
+            } else {
+                alert("You need at least one course to calculate GPA.");
+            }
+        }
+        
+        function calculateGPA() {
+            const creditInputs = document.getElementsByClassName("credits");
+            const gradeSelects = document.getElementsByClassName("grade");
+            
+            let totalCredits = 0;
+            let totalGradePoints = 0;
+            
+            for (let i = 0; i < creditInputs.length; i++) {
+                const credits = parseFloat(creditInputs[i].value);
+                const gradePoints = parseFloat(gradeSelects[i].value);
+                
+                if (isNaN(credits) || credits <= 0) {
+                    alert("Please enter valid credits for all courses.");
+                    return;
+                }
+                
+                totalCredits += credits;
+                totalGradePoints += credits * gradePoints;
+            }
+            
+            if (totalCredits === 0) {
+                alert("Total credits cannot be zero.");
+                return;
+            }
+            
+            const gpa = totalGradePoints / totalCredits;
+            
+            document.getElementById("gpaResult").innerHTML = `
+                <p><b>Total Credits:</b> ${totalCredits.toFixed(2)}</p>
+                <p><b>Total Grade Points:</b> ${totalGradePoints.toFixed(2)}</p>
+                <p><b>GPA:</b> ${gpa.toFixed(2)}</p>
+            `;
+            document.getElementById("gpaResult").style.display = "block";
+        }
+
         function calculateSGPA() {
             const sgpaSum = parseFloat(document.getElementById("sgpaSum").value);
             const semesters = parseInt(document.getElementById("semesters").value);
@@ -288,26 +472,52 @@
         }
         
         function downloadResult() {
+            // GPA Calculation Results
+            let gpaContent = "";
+            const gpaResult = document.getElementById("gpaResult");
+            if (gpaResult.style.display === "block") {
+                gpaContent = `
+GPA Calculation Results:
+${document.querySelector("#gpaResult p:nth-child(1)").textContent}
+${document.querySelector("#gpaResult p:nth-child(2)").textContent}
+${document.querySelector("#gpaResult p:nth-child(3)").textContent}
+                `;
+            }
+            
+            // SGPA/CGPA Results
             const sgpaSum = document.getElementById("sgpaSum").value;
             const semesters = document.getElementById("semesters").value;
             const cgpa = document.getElementById("cgpaInput").value;
-            const percentage = document.querySelector("#cgpaResult p:nth-child(2)").textContent.split(":")[1].trim();
-            const grade = document.querySelector("#cgpaResult p:nth-child(3)").textContent.split(":")[1].trim();
-            const classification = document.querySelector("#cgpaResult p:nth-child(4)").textContent.split(":")[1].trim();
-
+            
+            let cgpaContent = "";
+            const cgpaResult = document.getElementById("cgpaResult");
+            if (cgpaResult.style.display === "block") {
+                cgpaContent = `
+SGPA/CGPA Calculation Results:
+SGPA Sum: ${sgpaSum}
+Number of Semesters: ${semesters}
+${document.querySelector("#cgpaResult p:nth-child(1)").textContent}
+${document.querySelector("#cgpaResult p:nth-child(2)").textContent}
+${document.querySelector("#cgpaResult p:nth-child(3)").textContent}
+${document.querySelector("#cgpaResult p:nth-child(4)").textContent}
+                `;
+            }
+            
             const content = `
-                SGPA Sum: ${sgpaSum}
-                Number of Semesters: ${semesters}
-                CGPA: ${cgpa}
-                Percentage: ${percentage}
-                Grade: ${grade}
-                Classification: ${classification}
+SPPU GPA Calculator Results
+===========================
+
+${gpaContent}
+
+${cgpaContent}
+
+Generated on: ${new Date().toLocaleString()}
             `;
             
             const blob = new Blob([content], { type: 'text/plain' });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
-            link.download = 'gpa_calculation_result.txt';
+            link.download = 'sppu_gpa_calculation_result.txt';
             link.click();
         }
 

@@ -3,107 +3,645 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPA Calculator - SPPU</title>
+    <title>EasyTool - All Your Tools in One Place</title>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #FF9800;
-            --primary-dark: #F57C00;
-            --secondary: #2196F3;
-            --secondary-dark: #1976D2;
-            --success: #4CAF50;
-            --success-dark: #388E3C;
-            --danger: #F44336;
-            --danger-dark: #D32F2F;
-            --light: #f8f9fa;
-            --dark: #343a40;
-            --info-bg: #e7f3fe;
-            --info-border: #2196F3;
-            --result-bg: #e8f5e9;
-            --result-border: #4CAF50;
-        }
-        
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f4f7fc;
+            background-color: #f5f5f5;
             color: #333;
-            line-height: 1.6;
-            overflow-x: hidden;
         }
         
-        header {
-            background-color: var(--primary);
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
             color: white;
-            padding: 25px;
-            text-align: center;
-            font-size: 28px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo span {
+            color: #ffd700;
+            margin-right: 0.5rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin: 0 1rem;
+            position: relative;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-links a i {
+            margin-right: 0.5rem;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.3);
+            font-weight: 600;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            background: #ffd700;
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Tool Container */
+        .tool-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            min-height: 70vh;
+            transition: all 0.3s ease;
+        }
+        
+        .tool-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #6e8efb;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .tool-title::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, #6e8efb, #a777e3);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        /* Tool specific styles */
+        .tool-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tool-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Todo List Styles */
+        .todo-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .task-input {
+            position: relative;
+            height: 52px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .task-input img {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            width: 20px;
+        }
+        
+        .task-input input {
+            height: 100%;
+            width: 100%;
+            padding: 0 20px 0 45px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .task-input input:focus {
+            border-color: #6e8efb;
+            box-shadow: 0 0 0 2px rgba(110, 142, 251, 0.2);
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer {
+        text-align: center;
+        padding: 10px;
+        background: #333;
+        color: white;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+        .filters span {
+            margin: 0 8px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .filters span.active {
+            color: #6e8efb;
+            font-weight: 600;
+        }
+        
+        .clear-btn {
+            background: #6e8efb;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .clear-btn:hover {
+            background: #5a7df5;
+            transform: translateY(-2px);
+        }
+        
+        .task-box {
+            list-style: none;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .task-box .task {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .task-box .task:hover {
+            transform: translateX(5px);
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .task label {
+            display: flex;
+            align-items: center;
+        }
+        
+        .task label input {
+            margin-right: 10px;
+        }
+        
+        .task label p {
+            margin: 0;
+        }
+        
+        .task label p.checked {
+            text-decoration: line-through;
+            color: #888;
+        }
+        
+        .settings {
+            position: relative;
+        }
+        
+        .task-menu {
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 5px 0;
+            list-style: none;
+            transform: scale(0);
+            transform-origin: top right;
+            transition: transform 0.3s ease;
+            z-index: 10;
+        }
+        
+        .task-menu.show {
+            transform: scale(1);
+        }
+        
+        .task-menu li {
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+        
+        .task-menu li:hover {
+            background: #f5f5f5;
+            color: #6e8efb;
+        }
+        
+        .task-menu li i {
+            margin-right: 8px;
+        }
+        
+        /* Password Generator Styles */
+        .password-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .input-box {
+            position: relative;
+            height: 52px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .input-box input {
+            height: 100%;
+            width: 100%;
+            padding: 0 20px 0 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .input-box input:focus {
+            border-color: #6e8efb;
+            box-shadow: 0 0 0 2px rgba(110, 142, 251, 0.2);
+        }
+        
+        .input-box span {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #707070;
+            transition: all 0.3s ease;
+        }
+        
+        .input-box span:hover {
+            color: #6e8efb;
+        }
+        
+        .pass-indicator {
+            width: 100%;
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            margin-bottom: 1.5rem;
             position: relative;
             overflow: hidden;
         }
         
-        header::after {
+        .pass-indicator::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            height: 100%;
+            width: 0;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        
+        .pass-indicator#weak::before {
+            width: 20%;
+            background: #e74c3c;
+        }
+        
+        .pass-indicator#medium::before {
+            width: 50%;
+            background: #f1c40f;
+        }
+        
+        .pass-indicator#strong::before {
+            width: 100%;
+            background: #2ecc71;
+        }
+        
+        .pass-length {
+            margin-bottom: 1.5rem;
+        }
+        
+        .pass-length .details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .pass-length input {
+            width: 100%;
             height: 5px;
-            background: linear-gradient(90deg, var(--primary-dark), var(--primary), var(--primary-dark));
-            animation: headerGlow 3s ease-in-out infinite alternate;
+            cursor: pointer;
         }
         
-        @keyframes headerGlow {
-            0% { opacity: 0.7; }
-            100% { opacity: 1; }
+        .pass-settings {
+            margin-bottom: 1.5rem;
         }
         
-        .container {
+        .pass-settings .title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .options {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .option input {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .generate-btn {
+            width: 100%;
+            padding: 12px;
+            background: #6e8efb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .generate-btn:hover {
+            background: #5a7df5;
+            transform: translateY(-2px);
+        }
+        
+        /* QR Code Generator Styles */
+        .qr-container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .qr-form {
+            margin-bottom: 1.5rem;
+        }
+        
+        .qr-form input {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .qr-form input:focus {
+            border-color: #6e8efb;
+            box-shadow: 0 0 0 2px rgba(110, 142, 251, 0.2);
+        }
+        
+        .qr-form button {
+            width: 100%;
+            padding: 12px;
+            background: #6e8efb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .qr-form button:hover {
+            background: #5a7df5;
+            transform: translateY(-2px);
+        }
+        
+        .qr-code {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .qr-code img {
+            max-width: 200px;
+            max-height: 200px;
+        }
+        
+        .qr-container.active .qr-code {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Age Calculator Styles */
+        .age-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .age-form {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .base {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .enter {
+            width: 100%;
+            text-align: center;
+        }
+        
+        .enter h4 {
+            color: #6e8efb;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .block {
+            width: 30%;
+        }
+        
+        .title {
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        input[type="text"]:focus {
+            border-color: #6e8efb;
+            box-shadow: 0 0 0 2px rgba(110, 142, 251, 0.2);
+        }
+        
+        input[type="button"] {
+            padding: 10px 20px;
+            background: #6e8efb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        input[type="button"]:hover {
+            background: #5a7df5;
+            transform: translateY(-2px);
+        }
+        
+        #age {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #6e8efb;
+            font-weight: 500;
+            padding: 15px;
+            background: #f0f4ff;
+            border-radius: 5px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        /* Academic Calculator Styles */
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --success-dark: #38b6db;
+            --danger: #f72585;
+            --danger-dark: #e5177b;
+            --warning: #f8961e;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --info-bg: #e7f3fe;
+            --info-border: #2196F3;
+            --result-bg: #e8f5e9;
+            --result-border: #4CAF50;
+            --text-primary: #212529;
+            --text-secondary: #495057;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f4f7fc;
+            --card-bg: #ffffff;
+            --border-color: #dee2e6;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .academic-container {
             max-width: 900px;
-            margin: 40px auto;
-            padding: 30px;
-            background: #ffffff;
+            margin: 0 auto;
+            padding: 1.5rem;
+            background: var(--card-bg);
             border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            box-shadow: var(--shadow);
             animation: fadeInUp 0.8s ease-out;
         }
         
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        h2 {
+        .academic-title {
             color: var(--primary);
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
             position: relative;
             animation: slideInLeft 0.6s ease-out;
         }
         
-        h2::after {
+        .academic-title::after {
             content: '';
             position: absolute;
             bottom: -2px;
             left: 0;
-            width: 50px;
-            height: 2px;
-            background: var(--primary-dark);
+            width: 60px;
+            height: 3px;
+            background: var(--success);
         }
         
         @keyframes slideInLeft {
@@ -118,73 +656,67 @@
         }
         
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 1.5rem;
             animation: fadeIn 0.8s ease-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
         
         label {
             font-weight: 600;
             display: block;
-            margin-bottom: 8px;
-            color: #444;
-            transition: all 0.3s;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
         }
         
-        input, select {
+        .academic-input, .academic-select {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s;
-            background-color: #f9f9f9;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
         }
         
-        input:focus, select:focus {
+        .academic-input:focus, .academic-select:focus {
             border-color: var(--primary);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.2);
-            background-color: white;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
         }
         
-        button {
+        .academic-btn {
             width: 100%;
-            padding: 14px;
+            padding: 0.8rem;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 1rem;
             font-weight: 600;
-            transition: all 0.3s ease;
-            margin-bottom: 20px;
+            transition: var(--transition);
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 0.5rem;
         }
         
-        button:hover {
+        .academic-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
         
-        button:active {
+        .academic-btn:active {
             transform: translateY(0);
         }
         
-        .result {
-            margin-top: 25px;
-            padding: 20px;
+        .academic-result {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
             background-color: var(--result-bg);
-            border-left: 5px solid var(--result-border);
             border-radius: 8px;
             display: none;
             animation: slideInUp 0.5s ease-out;
+            border-left: 4px solid var(--success);
         }
         
         @keyframes slideInUp {
@@ -198,635 +730,1511 @@
             }
         }
         
-        .result p {
-            margin-bottom: 10px;
-            font-size: 16px;
+        .academic-result p {
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+            color: var(--text-primary);
         }
         
-        .result p b {
-            color: var(--dark);
+        .academic-result p b {
+            color: var(--text-primary);
         }
         
         .button-group {
             display: flex;
-            gap: 15px;
+            gap: 1rem;
             flex-wrap: wrap;
         }
         
-        .button-group button {
-            width: 48%;
-            transition: all 0.3s ease;
-        }
-        
         .download-btn {
-            margin-top: 20px;
-            width: 200px;
-            padding: 12px;
             background-color: var(--success);
             color: white;
-            font-size: 16px;
-            margin-left: auto;
-            margin-right: auto;
-            border-radius: 8px;
         }
         
         .download-btn:hover {
             background-color: var(--success-dark);
         }
         
-        .download-image-btn {
-            margin-top: 15px;
-            width: 200px;
-            padding: 12px;
-            background-color: var(--secondary);
-            color: white;
-            font-size: 16px;
-            margin-left: auto;
-            margin-right: auto;
-            border-radius: 8px;
-        }
-        
-        .download-image-btn:hover {
-            background-color: var(--secondary-dark);
-        }
-        
-        .gpa-calculator-btn {
-            background-color: var(--danger);
-            color: white;
-        }
-        
-        .gpa-calculator-btn:hover {
-            background-color: var(--danger-dark);
-        }
-        
-        .convert-cgpa-btn {
-            background-color: var(--danger);
-            color: white;
-        }
-        
-        .convert-cgpa-btn:hover {
-            background-color: var(--danger-dark);
-        }
-        
-        .course-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 25px;
-            animation: fadeIn 0.8s ease-out;
-        }
-        
-        .course-table th, .course-table td {
-            border: 1px solid #e0e0e0;
-            padding: 12px;
-            text-align: left;
-        }
-        
-        .course-table th {
-            background-color: #f5f5f5;
-            font-weight: 600;
-            color: #444;
-        }
-        
-        .course-table tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        
-        .course-table tr:hover {
-            background-color: #f1f1f1;
-        }
-        
-        .add-row-btn {
-            background-color: var(--success);
-            color: white;
-            margin-bottom: 25px;
-        }
-        
-        .add-row-btn:hover {
-            background-color: var(--success-dark);
-        }
-        
-        .remove-btn {
-            background-color: #f44336;
-            color: white;
-            padding: 8px 12px;
-            font-size: 14px;
-            width: auto;
-            margin: 0;
-        }
-        
-        .remove-btn:hover {
-            background-color: #d32f2f;
-        }
-        
         .info-box {
             background-color: var(--info-bg);
-            border-left: 6px solid var(--info-border);
-            padding: 20px;
-            margin-bottom: 30px;
+            border-left: 4px solid var(--info-border);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
             border-radius: 0 8px 8px 0;
             animation: fadeIn 0.8s ease-out;
         }
         
         .info-box h3 {
             margin-top: 0;
-            margin-bottom: 15px;
+            margin-bottom: 1rem;
             color: var(--info-border);
         }
         
-        .info-box table {
+        .academic-table {
             width: 100%;
-            margin-bottom: 15px;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+            animation: fadeIn 0.8s ease-out;
         }
         
-        .info-box p {
-            margin-bottom: 10px;
+        .academic-table th, .academic-table td {
+            border: 1px solid var(--border-color);
+            padding: 0.8rem;
+            text-align: left;
         }
         
-        .info-box strong {
-            color: var(--dark);
+        .academic-table th {
+            background-color: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .academic-table tr:nth-child(even) {
+            background-color: var(--bg-secondary);
+        }
+        
+        .academic-table tr:hover {
+            background-color: var(--light);
         }
         
         .section {
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
         }
         
         .section:last-child {
             border-bottom: none;
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
         
-        footer {
-            background-color: var(--dark);
-            color: white;
+        .progress-container {
+            width: 100%;
+            background-color: var(--light);
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--success));
             text-align: center;
-            padding: 20px;
-            margin-top: 50px;
+            line-height: 20px;
+            color: white;
+            font-size: 0.8rem;
+            transition: width 1s ease-in-out;
         }
         
-        footer p {
-            margin-bottom: 10px;
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
         
-        .pulse {
-            animation: pulse 2s infinite;
+        .nav-btn {
+            padding: 0.6rem 1.2rem;
+            background-color: var(--light);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-primary);
+            font-weight: 600;
         }
         
-        @keyframes pulse {
-            0% { transform: scale(1); }
+        .nav-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .download-text-btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+        
+        .download-text-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .example-box {
+            background-color: var(--info-bg);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+            border-left: 4px solid var(--info-border);
+        }
+        
+        .example-box h4 {
+            margin-bottom: 0.5rem;
+            color: var(--info-border);
+        }
+        
+        /* Refresh Confirmation Modal */
+        .refresh-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .refresh-content {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transform: scale(0.9);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0.9); opacity: 0; }
             50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+            100% { transform: scale(1); opacity: 1; }
         }
         
+        .refresh-content h2 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .refresh-content p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+        
+        .refresh-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .refresh-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .refresh-confirm {
+            background-color: #ff4d4d;
+            color: white;
+        }
+        
+        .refresh-confirm:hover {
+            background-color: #ff3333;
+            transform: translateY(-2px);
+        }
+        
+        .refresh-cancel {
+            background-color: white;
+            color: #6e8efb;
+        }
+        
+        .refresh-cancel:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+        }
+        
+        /* Toast Notification - Centered at Bottom */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--card-bg);
+            color: var(--text-primary);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--success);
+            max-width: 90%;
+            text-align: center;
+        }
+        
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        
+        .toast i {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .toast.error {
+            border-left-color: var(--danger);
+        }
+        
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .container {
-                margin: 20px;
-                padding: 20px;
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-links li {
+                margin: 0.5rem;
+            }
+            
+            .tool-container {
+                padding: 1rem;
+            }
+            
+            .base {
+                flex-direction: column;
+            }
+            
+            .block {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            .academic-container {
+                padding: 1rem;
+                margin: 0 1rem 2rem;
+                border-radius: 8px;
+            }
+            
+            .academic-title {
+                font-size: 1.3rem;
             }
             
             .button-group button {
                 width: 100%;
             }
             
-            .course-table {
-                font-size: 14px;
+            .academic-table th, .academic-table td {
+                padding: 0.6rem;
+                font-size: 0.9rem;
             }
             
-            .course-table th, .course-table td {
-                padding: 8px;
+            .nav-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .academic-result {
+                padding: 1rem;
+            }
+            
+            .toast {
+                width: 90%;
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .academic-container {
+                padding: 0.8rem;
+                margin: 0 0.5rem 1.5rem;
+            }
+            
+            .academic-title {
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+            }
+            
+            .academic-input, .academic-select, .academic-btn {
+                padding: 0.7rem;
+            }
+            
+            .nav-container {
+                gap: 0.3rem;
+            }
+            
+            .nav-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+            
+            .download-text-btn {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            .toast {
+                width: 95%;
+                padding: 0.7rem 0.9rem;
+                font-size: 0.8rem;
+            }
+            
+            .refresh-content {
+                padding: 1.5rem;
+            }
+            
+            .refresh-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .refresh-btn {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <header class="pulse">
-        GPA Calculator - SPPU
-    </header>
-
-    <div class="container">
-        <div class="section">
-            <div class="info-box">
-                <h3>Letter Grades and Grade Points</h3>
-                <table class="course-table">
-                    <tr>
-                        <th>Letter</th>
-                        <th>Percentage</th>
-                        <th>Points</th>
-                    </tr>
-                    <tr>
-                        <td>O</td>
-                        <td>75-100</td>
-                        <td>6</td>
-                    </tr>
-                    <tr>
-                        <td>A</td>
-                        <td>65-74</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>B</td>
-                        <td>55-64</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>C</td>
-                        <td>50-54</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>D</td>
-                        <td>45-49</td>
-                        <td>2</td>
-                    </tr>
-                    <tr>
-                        <td>E</td>
-                        <td>40-44</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>F</td>
-                        <td>0-39</td>
-                        <td>0</td>
-                    </tr>
-                </table>
-                <p><strong>Formula:</strong> GPA = Total Grade Points / Total Credits</p>
-                <p><strong>Example Calculation:</strong></p>
-                <p>Course 1: 3 credits, Grade: O (6)<br>
-                Course 2: 4 credits, Grade: B (4)<br>
-                Course 3: 2 credits, Grade: C (3)</p>
-                <p>Total Grade Points = (3×6) + (4×4) + (2×3) = 18 + 16 + 6 = 40</p>
-                <p>Total Credits = 3 + 4 + 2 = 9</p>
-                <p>GPA = 40 / 9 ≈ 4.44</p>
-            </div>
-
-            <h2>GPA Calculation</h2>
-            <table id="courseTable" class="course-table">
-                <thead>
-                    <tr>
-                        <th>Course</th>
-                        <th>Credits</th>
-                        <th>Grade</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Course 1</td>
-                        <td><input type="number" class="credits" min="1" value="3"></td>
-                        <td>
-                            <select class="grade">
-                                <option value="6">O (6)</option>
-                                <option value="5">A (5)</option>
-                                <option value="4">B (4)</option>
-                                <option value="3">C (3)</option>
-                                <option value="2">D (2)</option>
-                                <option value="1">E (1)</option>
-                                <option value="0">F (0)</option>
-                            </select>
-                        </td>
-                        <td><button class="remove-btn" onclick="removeRow(this)">Remove</button></td>
-                    </tr>
-                </tbody>
-            </table>
-            <button class="add-row-btn" onclick="addRow()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                </svg>
-                Add Course
-            </button>
-            <button class="gpa-calculator-btn" onclick="calculateGPA()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                    <path d="M7.5 7.793V4.5a.5.5 0 0 1 1 0v3.293l1.854 1.853a.5.5 0 0 1-.708.708l-2-2a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L7.5 7.793z"/>
-                </svg>
-                Calculate GPA
-            </button>
-            <div id="gpaResult" class="result"></div>
-        </div>
-
-        <div class="section">
-            <h2>SGPA to CGPA Calculation</h2>
-            <div class="form-group">
-                <label for="sgpaSum">Sum of SGPA:</label>
-                <input type="number" id="sgpaSum" step="0.01" placeholder="Enter sum of all SGPA">
-            </div>
-            <div class="form-group">
-                <label for="semesters">Number of Semesters:</label>
-                <input type="number" id="semesters" placeholder="Enter number of semesters">
-            </div>
-            <button class="gpa-calculator-btn" onclick="calculateSGPA()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                    <path d="M7.5 7.793V4.5a.5.5 0 0 1 1 0v3.293l1.854 1.853a.5.5 0 0 1-.708.708l-2-2a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L7.5 7.793z"/>
-                </svg>
-                Convert SGPA to CGPA
-            </button>
-        </div>
-
-        <div class="section">
-            <h2>SGPA or CGPA to Percentage Calculation</h2>
-            <div class="form-group">
-                <label for="cgpaInput">Enter SGPA or CGPA:</label>
-                <input type="number" id="cgpaInput" step="0.01" placeholder="Enter CGPA">
-            </div>
-
-            <button class="convert-cgpa-btn" onclick="calculateCGPAAndPercentage()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                    <path d="M7.5 7.793V4.5a.5.5 0 0 1 1 0v3.293l1.854 1.853a.5.5 0 0 1-.708.708l-2-2a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L7.5 7.793z"/>
-                </svg>
-                Convert CGPA to Percentage
-            </button>
-
-            <div id="cgpaResult" class="result"></div>
-        </div>
-
-        <button class="download-btn" onclick="downloadResult()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-            </svg>
-            Download as Text
-        </button>
+<!-- Navigation Bar -->
+<nav class="navbar">
+    <div class="logo">
+        <span class="material-symbols-rounded">construction</span>
+        EasyTool
     </div>
+    <ul class="nav-links">
+        <li><a href="#" class="active" data-tool="academic"><i class="fas fa-graduation-cap"></i> Marks Calculator</a></li>
+        <li><a href="#" data-tool="qr"><i class="uil uil-qrcode-scan"></i> QR Code Maker</a></li>
+        <li><a href="#" data-tool="todo"><i class="uil uil-clipboard-notes"></i> To-Do Task</a></li>
+        <li><a href="#" data-tool="password"><i class="uil uil-lock"></i> Password Generate</a></li>
+        <li><a href="#" data-tool="age"><i class="uil uil-calculator-alt"></i> Age Calculator</a></li>
+    </ul>
+</nav>
 
-    <footer>
-        <p>Note: This conversion is based on SPPU 2019 rulebook and Circular No. 322/2020</p>
-        <div>
-            <button class="download-image-btn" onclick="downloadImage()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                </svg>
-                Download Image
-            </button>
+<!-- Tool Container -->
+<div class="tool-container">
+    <!-- Todo List -->
+    <div class="tool-section" id="todo-section">
+        <h2 class="tool-title">To-Do Task</h2>
+        <div class="todo-wrapper">
+            <div class="task-input">
+                <input type="text" placeholder="Add a new task">
+            </div>
+            <div class="controls">
+                <div class="filters">
+                    <span class="active" id="all">All</span>
+                    <span id="pending">Pending</span>
+                    <span id="completed">Completed</span>
+                </div>
+                <button class="clear-btn">Clear All</button>
+            </div>
+            <ul class="task-box"></ul>
         </div>
-    </footer>
+    </div>
+    
+    <!-- Password Generator -->
+    <div class="tool-section" id="password-section">
+        <h2 class="tool-title">Password Generator</h2>
+        <div class="password-container">
+            <div class="wrapper">
+                <div class="input-box">
+                    <input type="text" disabled>
+                    <span class="material-symbols-rounded">copy_all</span>
+                </div>
+                <div class="pass-indicator"></div>
+                <div class="pass-length">
+                    <div class="details">
+                        <label class="title">Password Length</label>
+                        <span>15</span>
+                    </div>
+                    <input type="range" min="1" max="30" value="15" step="1">
+                </div>
+                <div class="pass-settings">
+                    <label class="title">Password Settings</label>
+                    <ul class="options">
+                        <li class="option">
+                            <input type="checkbox" id="lowercase" checked>
+                            <label for="lowercase">Lowercase (a-z)</label>
+                        </li>
+                        <li class="option">
+                            <input type="checkbox" id="uppercase">
+                            <label for="uppercase">Uppercase (A-Z)</label>
+                        </li>
+                        <li class="option">
+                            <input type="checkbox" id="numbers">
+                            <label for="numbers">Numbers (0-9)</label>
+                        </li>
+                        <li class="option">
+                            <input type="checkbox" id="symbols">
+                            <label for="symbols">Symbols (!-$^+)</label>
+                        </li>
+                        <li class="option">
+                            <input type="checkbox" id="exc-duplicate">
+                            <label for="exc-duplicate">Exclude Duplicate</label>
+                        </li>
+                        <li class="option">
+                            <input type="checkbox" id="spaces">
+                            <label for="spaces">Include Spaces</label>
+                        </li>
+                    </ul>
+                </div>
+                <button class="generate-btn">Generate Password</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- QR Code Generator -->
+    <div class="tool-section" id="qr-section">
+        <h2 class="tool-title">QR Code Generator</h2>
+        <div class="qr-container">
+            <div class="qr-form">
+                <input type="text" spellcheck="false" placeholder="Enter text or url">
+                <button>Generate QR Code</button>
+            </div>
+            <div class="qr-code">
+                <alt="qr-code">
+            </div>
+        </div>
+    </div>
+    
+    <!-- Age Calculator -->
+    <div class="tool-section" id="age-section">
+        <h2 class="tool-title">Age Calculator</h2>
+        <div class="age-container">
+            <form>
+                <div class="base">
+                    <div class="block">
+                        <p class="title">Date</p>
+                        <input type="text" name="date" id="date" placeholder="DD" required minlength="1" maxlength="2">
+                    </div>
+                    <div class="block">
+                        <p class="title">Month</p>
+                        <input type="text" name="month" id="month" placeholder="MM" required minlength="1" maxlength="2">
+                    </div>
+                    <div class="block">
+                        <p class="title">Year</p>
+                        <input type="text" name="year" id="year" placeholder="YYYY" required minlength="4" maxlength="4">
+                    </div>
+                </div>
+                <div class="base">
+                    <div class="enter">
+                        <input type="button" name="submit" value="Get Age" onclick="getage()">
+                    </div>
+                </div>
+                <div id="age"></div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Academic Performance Calculator -->
+    <div class="tool-section active" id="academic-section">
+        <h2 class="tool-title">Academic Performance Calculator</h2>
+        <div class="academic-container">
+            <div class="nav-container">
+                <button class="nav-btn active" onclick="openTab('percentage-tab')">
+                    <i class="fas fa-percentage"></i> Percentage
+                </button>
+                <button class="nav-btn" onclick="openTab('cgpa-tab')">
+                    <i class="fas fa-calculator"></i> CGPA
+                </button>
+                <button class="nav-btn" onclick="openTab('reference-tab')">
+                    <i class="fas fa-book"></i> References
+                </button>
+            </div>
 
-    <script>
-        // Add animations to elements when they come into view
-        const animateOnScroll = () => {
-            const elements = document.querySelectorAll('.section, .info-box, .form-group');
+            <!-- Percentage Tab -->
+            <div id="percentage-tab" class="tab-content active">
+                <div class="section">
+                    <h3 class="academic-title"><i class="fas fa-school"></i> 10th Marks Calculator</h3>
+                    <div class="example-box">
+                        <h4><i class="fas fa-lightbulb"></i> Example:</h4>
+                        <p>If your 10th total marks are 500 and you scored 425:</p>
+                        <p>Percentage = (425 / 500) × 100 = 85%</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="tenthTotal"><i class="fas fa-total"></i> Total Marks (out of):</label>
+                        <input type="number" class="academic-input" id="tenthTotal" placeholder="Enter your total marks" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="tenthObtained"></i> Obtained Marks:</label>
+                        <input type="number" class="academic-input" id="tenthObtained" placeholder="Enter your obtained marks">
+                    </div>
+                    <button class="academic-btn download-btn" onclick="calculateTenthPercentage()">
+                        <i class="fas fa-calculator"></i> Calculate Percentage
+                    </button>
+                    <div id="tenthResult" class="academic-result"></div>
+                    <button class="download-text-btn" onclick="downloadTenthResult()">
+                        <i class="fas fa-download"></i> Download as Text
+                    </button>
+                </div>
+
+                <div class="section">
+                    <h3 class="academic-title"><i class="fas fa-university"></i> 12th Marks Calculator</h3>
+                    <div class="example-box">
+                        <h4><i class="fas fa-lightbulb"></i> Example:</h4>
+                        <p>If your 12th total marks are 600 and you scored 510:</p>
+                        <p>Percentage = (510 / 600) × 100 = 85%</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="twelfthTotal"><i class="fas fa-total"></i> Total Marks (out of):</label>
+                        <input type="number" class="academic-input" id="twelfthTotal" placeholder="Enter your total marks" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="twelfthObtained"></i> Obtained Marks:</label>
+                        <input type="number" class="academic-input" id="twelfthObtained" placeholder="Enter your obtained marks">
+                    </div>
+                    <button class="academic-btn download-btn" onclick="calculateTwelfthPercentage()">
+                        <i class="fas fa-calculator"></i> Calculate Percentage
+                    </button>
+                    <div id="twelfthResult" class="academic-result"></div>
+                    <button class="download-text-btn" onclick="downloadTwelfthResult()">
+                        <i class="fas fa-download"></i> Download as Text
+                    </button>
+                </div>
+            </div>
+
+            <!-- CGPA Calculator Tab -->
+            <div id="cgpa-tab" class="tab-content">
+                <div class="section">
+                    <div class="info-box">
+                        <h3><i class="fas fa-info-circle"></i> Example:</h3>
+                        <p>Semester 1 SGPA: 8.5<br>
+                        Semester 2 SGPA: 9.0<br>
+                        Semester 3 SGPA: 8.0</p>
+                        <p>Sum of SGPA = 8.5 + 9.0 + 8.0 = 25.5</p>
+                        <p>Number of Semesters = 3</p>
+                        <p>CGPA = 25.5 / 3 = 8.5</p>
+                    </div>
+
+                    <h3 class="academic-title"><i class="fas fa-calculator"></i> CGPA Calculation (Out of 10.0)</h3>
+                    <div class="form-group">
+                        <label for="sgpaSum"><i class="fas fa-plus-circle"></i> Sum of SGPA:</label>
+                        <input type="number" class="academic-input" id="cgpaSgpaSum" step="0.01" placeholder="Enter sum of all SGPA">
+                    </div>
+                    <div class="form-group">
+                        <label for="semesters"><i class="fas fa-list-ol"></i> Number of Semesters:</label>
+                        <input type="number" class="academic-input" id="cgpaSemesters" placeholder="Enter number of semesters">
+                    </div>
+                    <button class="academic-btn download-btn" onclick="calculateCGPA()">
+                        <i class="fas fa-calculator"></i> Calculate CGPA
+                    </button>
+                    <div id="cgpaProgress" class="progress-container" style="display: none;">
+                        <div id="cgpaProgressBar" class="progress-bar" style="width: 0%">0%</div>
+                    </div>
+                    <div id="cgpaResult" class="academic-result"></div>
+                    <button class="download-text-btn" onclick="downloadCGPAResult()">
+                        <i class="fas fa-download"></i> Download as Text
+                    </button>
+                </div>
+
+                <!-- SPPU CGPA to Percentage Conversion -->
+                <div class="section">
+                    <div class="info-box">
+
+                        <h3><i class="fas fa-info-circle"></i> CGPA to Percentage</h3>
+                    
+                        <ul>
+                            <li><strong>O grade (9.5+ CGPA):</strong> Percentage = (20 × CGPA) - 100</li>
+                    
+                            <li><strong>A+ grade (8.25-9.5 CGPA):</strong> Percentage = (12 × CGPA) - 25</li>
+                    
+                            <li><strong>A grade (6.75-8.25 CGPA):</strong> Percentage = (10 × CGPA) - 7.5</li>
+                    
+                            <li><strong>B+ grade (5.75-6.75 CGPA):</strong> Percentage = (5 × CGPA) + 26.25</li>
+                    
+                            <li><strong>B grade (5.25-5.75 CGPA):</strong> Percentage = (10 × CGPA) - 2.50</li>
+                    
+                            <li><strong>C grade (4.75-5.25 CGPA):</strong> Percentage = (10 × CGPA) - 2.50</li>
+                    
+                            <li><strong>D grade (4.0-4.75 CGPA):</strong> Percentage = (6.6 × CGPA) + 13.6</li>
+                        </ul>
+                    
+                    </div>
+                    
+
+                    <h3 class="academic-title"><i class="fas fa-exchange-alt"></i> CGPA to Percentage</h3>
+                    <div class="form-group">
+                        <label for="cgpaInput"><i class="fas fa-calculator"></i> Enter CGPA (out of 10.0):</label>
+                        <input type="number" class="academic-input" id="cgpaInput" step="0.01" min="0" max="10" placeholder="Enter your CGPA">
+                    </div>
+                    <button class="academic-btn download-btn" onclick="convertSppuCgpaToPercentage()">
+                        <i class="fas fa-exchange-alt"></i> Convert to Percentage
+                    </button>
+                    <div id="cgpaConversionResult" class="academic-result"></div>
+                    <button class="download-text-btn" onclick="downloadSppuCgpaConversionResult()">
+                        <i class="fas fa-download"></i> Download as Text
+                    </button>
+                </div>
+            </div>
+
+            <!-- Reference Tab -->
+            <div id="reference-tab" class="tab-content">
+                <div class="section">
+                    <h3 class="academic-title"><i class="fas fa-book"></i> Grading System Reference</h3>
+                    <div class="info-box">
+                        <h3><i class="fas fa-graduation-cap"></i> GPA Scale (Out of 4.0)</h3>
+                        <table class="academic-table">
+                            <tr>
+                                <th>Percentage</th>
+                                <th>Grade</th>
+                                <th>GPA Points</th>
+                            </tr>
+                            <tr>
+                                <td>90-100%</td>
+                                <td>A</td>
+                                <td>4.0</td>
+                            </tr>
+                            <tr>
+                                <td>80-89%</td>
+                                <td>B</td>
+                                <td>3.0</td>
+                            </tr>
+                            <tr>
+                                <td>70-79%</td>
+                                <td>C</td>
+                                <td>2.0</td>
+                            </tr>
+                            <tr>
+                                <td>60-69%</td>
+                                <td>D</td>
+                                <td>1.0</td>
+                            </tr>
+                            <tr>
+                                <td>Below 60%</td>
+                                <td>F</td>
+                                <td>0.0</td>
+                            </tr>
+                        </table>
+                        <p><strong><i class="fas fa-exclamation-circle"></i> Note:</strong> This is the standard 4.0 scale used in many universities, especially in the United States. Some institutions may use variations like A+, A-, B+, etc. with corresponding GPA values.</p>
+                    </div>
+
+                    <div class="info-box">
+                        <h3><i class="fas fa-chart-line"></i> SGPA/CGPA Scale (Out of 10.0)</h3>
+                        <table class="academic-table">
+                            <tr>
+                                <th>Percentage</th>
+                                <th>Grade</th>
+                                <th>Grade Points</th>
+                                <th>Classification</th>
+                            </tr>
+                            <tr>
+                                <td>90-100%</td>
+                                <td>O (Outstanding)</td>
+                                <td>10</td>
+                                <td>First Class with Distinction</td>
+                            </tr>
+                            <tr>
+                                <td>80-89%</td>
+                                <td>A+ (Excellent)</td>
+                                <td>9</td>
+                                <td>First Class</td>
+                            </tr>
+                            <tr>
+                                <td>70-79%</td>
+                                <td>A (Very Good)</td>
+                                <td>8</td>
+                                <td>First Class</td>
+                            </tr>
+                            <tr>
+                                <td>60-69%</td>
+                                <td>B+ (Good)</td>
+                                <td>7</td>
+                                <td>Second Class</td>
+                            </tr>
+                            <tr>
+                                <td>50-59%</td>
+                                <td>B (Above Average)</td>
+                                <td>6</td>
+                                <td>Second Class</td>
+                            </tr>
+                            <tr>
+                                <td>40-49%</td>
+                                <td>C (Average)</td>
+                                <td>5</td>
+                                <td>Pass Class</td>
+                            </tr>
+                            <tr>
+                                <td>Below 40%</td>
+                                <td>F (Fail)</td>
+                                <td>0</td>
+                                <td>Fail</td>
+                            </tr>
+                        </table>
+                        <p><strong><i class="fas fa-exclamation-circle"></i> Note:</strong> This 10-point grading system is commonly used in Indian universities and many other institutions worldwide. The exact percentage ranges may vary slightly between universities.</p>
+                    </div>
+
+                    <div class="info-box">
+                        <h3><i class="fas fa-square-root-alt"></i> Formulas</h3>
+                        <p><strong><i class="fas fa-percentage"></i> Percentage Calculation:</strong></p>
+                        <p>Percentage = (Obtained Marks / Total Marks) × 100</p>
+                        
+                        <p><strong><i class="fas fa-calculator"></i> GPA Calculation (4.0 scale):</strong></p>
+                        <p>GPA = Sum of (Grade Points × Credit Hours) / Total Credit Hours</p>
+                        <p class="example">Example: If you got A (4.0) in a 3-credit course and B (3.0) in a 4-credit course:<br>
+                        GPA = (4.0 × 3 + 3.0 × 4) / (3 + 4) = (12 + 12) / 7 = 24 / 7 ≈ 3.43</p>
+                        
+                        <p><strong><i class="fas fa-calculator"></i> SGPA Calculation (10.0 scale):</strong></p>
+                        <p>SGPA = Sum of (Grade Points × Credits) / Total Credits</p>
+                        <p class="example">Example: If you got 9 in a 4-credit course and 7 in a 3-credit course:<br>
+                        SGPA = (9 × 4 + 7 × 3) / (4 + 3) = (36 + 21) / 7 = 57 / 7 ≈ 8.14</p>
+                        
+                        <p><strong><i class="fas fa-calculator"></i> CGPA Calculation (10.0 scale):</strong></p>
+                        <p>CGPA = Sum of (SGPA × Semester Credits) / Total Credits Across All Semesters</p>
+                        <p class="example">Example: Semester 1 SGPA 8.5 (20 credits), Semester 2 SGPA 7.8 (22 credits):<br>
+                        CGPA = (8.5 × 20 + 7.8 × 22) / (20 + 22) = (170 + 171.6) / 42 ≈ 8.13</p>
+                        
+                        <p><strong><i class="fas fa-exclamation-triangle"></i> Important Notes:</strong></p>
+                        <ul>
+                            <li>Some universities calculate CGPA as a simple average of SGPAs rather than credit-weighted</li>
+                            <li>Always check your institution's specific grading policy</li>
+                            <li>Conversion between different grading systems is approximate</li>
+                        </ul>
+                    </div>
+                    <button class="download-text-btn" onclick="downloadReference()">
+                        <i class="fas fa-download"></i> Download as Text
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Refresh Confirmation Modal -->
+<div class="refresh-modal" id="refreshModal">
+    <div class="refresh-content">
+        <h2><i class="fas fa-exclamation-triangle"></i> Confirm Refresh</h2>
+        <p>Are you sure you want to refresh? Any unsaved changes will be lost.</p>
+        <div class="refresh-buttons">
+            <button class="refresh-btn refresh-confirm" onclick="confirmRefresh()">Yes, Refresh</button>
+            <button class="refresh-btn refresh-cancel" onclick="cancelRefresh()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notification - Centered at Bottom -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMessage">Copied to clipboard!</span>
+</div>
+
+<script>
+    // Navigation functionality
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
             
-            elements.forEach(element => {
-                const elementPosition = element.getBoundingClientRect().top;
-                const screenPosition = window.innerHeight / 1.3;
-                
-                if (elementPosition < screenPosition) {
-                    element.style.animation = 'fadeInUp 0.6s ease-out forwards';
+            // Update active state in navigation
+            document.querySelector('.nav-links a.active').classList.remove('active');
+            this.classList.add('active');
+            
+            // Show the selected tool section
+            const toolId = this.getAttribute('data-tool');
+            document.querySelector('.tool-section.active').classList.remove('active');
+            document.getElementById(`${toolId}-section`).classList.add('active');
+        });
+    });
+    
+    // Todo List functionality
+    const taskInput = document.querySelector(".task-input input"),
+        filters = document.querySelectorAll(".filters span"),
+        clearAll = document.querySelector(".clear-btn"),
+        taskBox = document.querySelector(".task-box");
+
+    let editId,
+        isEditTask = false,
+        todos = JSON.parse(localStorage.getItem("todo-list")) || [];
+
+    filters.forEach(btn => {
+        btn.addEventListener("click", () => {
+            document.querySelector("span.active").classList.remove("active");
+            btn.classList.add("active");
+            showTodo(btn.id);
+        });
+    });
+
+    function showTodo(filter) {
+        let liTag = "";
+        if(todos) {
+            todos.forEach((todo, id) => {
+                let completed = todo.status == "completed" ? "checked" : "";
+                if(filter == todo.status || filter == "all") {
+                    liTag += `<li class="task">
+                                <label for="${id}">
+                                    <input onclick="updateStatus(this)" type="checkbox" id="${id}" ${completed}>
+                                    <p class="${completed}">${todo.name}</p>
+                                </label>
+                                <div class="settings">
+                                    <i onclick="showMenu(this)" class="uil uil-ellipsis-h"></i>
+                                    <ul class="task-menu">
+                                        <li onclick='editTask(${id}, "${todo.name}")'><i class="uil uil-pen"></i>Edit</li>
+                                        <li onclick='deleteTask(${id}, "${filter}")'><i class="uil uil-trash"></i>Delete</li>
+                                    </ul>
+                                </div>
+                            </li>`;
                 }
             });
-        };
-        
-        window.addEventListener('scroll', animateOnScroll);
-        document.addEventListener('DOMContentLoaded', animateOnScroll);
+        }
+        taskBox.innerHTML = liTag || `<span>You don't have any task here</span>`;
+        let checkTask = taskBox.querySelectorAll(".task");
+        !checkTask.length ? clearAll.classList.remove("active") : clearAll.classList.add("active");
+        taskBox.offsetHeight >= 300 ? taskBox.classList.add("overflow") : taskBox.classList.remove("overflow");
+    }
+    showTodo("all");
 
-        function addRow() {
-            const table = document.getElementById("courseTable").getElementsByTagName('tbody')[0];
-            const rowCount = table.rows.length;
-            const row = table.insertRow(rowCount);
-            
-            const cell1 = row.insertCell(0);
-            cell1.innerHTML = "Course " + (rowCount + 1);
-            
-            const cell2 = row.insertCell(1);
-            const creditInput = document.createElement("input");
-            creditInput.type = "number";
-            creditInput.className = "credits";
-            creditInput.min = "1";
-            creditInput.value = "3";
-            cell2.appendChild(creditInput);
-            
-            const cell3 = row.insertCell(2);
-            const gradeSelect = document.createElement("select");
-            gradeSelect.className = "grade";
-            gradeSelect.innerHTML = `
-                <option value="6">O (6)</option>
-                <option value="5">A (5)</option>
-                <option value="4">B (4)</option>
-                <option value="3">C (3)</option>
-                <option value="2">D (2)</option>
-                <option value="1">E (1)</option>
-                <option value="0">F (0)</option>
-            `;
-            cell3.appendChild(gradeSelect);
-            
-            const cell4 = row.insertCell(3);
-            cell4.innerHTML = '<button class="remove-btn" onclick="removeRow(this)">Remove</button>';
-            
-            // Animate the new row
-            row.style.opacity = "0";
-            row.style.transform = "translateY(20px)";
-            setTimeout(() => {
-                row.style.transition = "all 0.4s ease-out";
-                row.style.opacity = "1";
-                row.style.transform = "translateY(0)";
-            }, 10);
-        }
-        
-        function removeRow(btn) {
-            const row = btn.parentNode.parentNode;
-            const table = document.getElementById("courseTable").getElementsByTagName('tbody')[0];
-            if (table.rows.length > 1) {
-                // Animate row removal
-                row.style.transition = "all 0.3s ease-out";
-                row.style.opacity = "0";
-                row.style.transform = "translateX(-100px)";
-                setTimeout(() => {
-                    row.parentNode.removeChild(row);
-                    // Update course numbers
-                    const rows = table.rows;
-                    for (let i = 0; i < rows.length; i++) {
-                        rows[i].cells[0].innerHTML = "Course " + (i + 1);
-                    }
-                }, 300);
-            } else {
-                alert("You need at least one course to calculate GPA.");
+    function showMenu(selectedTask) {
+        let menuDiv = selectedTask.parentElement.lastElementChild;
+        menuDiv.classList.add("show");
+        document.addEventListener("click", e => {
+            if(e.target.tagName != "I" || e.target != selectedTask) {
+                menuDiv.classList.remove("show");
             }
+        });
+    }
+
+    function updateStatus(selectedTask) {
+        let taskName = selectedTask.parentElement.lastElementChild;
+        if(selectedTask.checked) {
+            taskName.classList.add("checked");
+            todos[selectedTask.id].status = "completed";
+        } else {
+            taskName.classList.remove("checked");
+            todos[selectedTask.id].status = "pending";
         }
-        
-        function calculateGPA() {
-            const creditInputs = document.getElementsByClassName("credits");
-            const gradeSelects = document.getElementsByClassName("grade");
-            
-            let totalCredits = 0;
-            let totalGradePoints = 0;
-            
-            for (let i = 0; i < creditInputs.length; i++) {
-                const credits = parseFloat(creditInputs[i].value);
-                const gradePoints = parseFloat(gradeSelects[i].value);
-                
-                if (isNaN(credits) || credits <= 0) {
-                    // Shake animation for invalid input
-                    creditInputs[i].style.animation = "shake 0.5s";
-                    setTimeout(() => {
-                        creditInputs[i].style.animation = "";
-                    }, 500);
-                    alert("Please enter valid credits for all courses.");
-                    return;
+        localStorage.setItem("todo-list", JSON.stringify(todos))
+    }
+
+    function editTask(taskId, textName) {
+        editId = taskId;
+        isEditTask = true;
+        taskInput.value = textName;
+        taskInput.focus();
+        taskInput.classList.add("active");
+    }
+
+    function deleteTask(deleteId, filter) {
+        isEditTask = false;
+        todos.splice(deleteId, 1);
+        localStorage.setItem("todo-list", JSON.stringify(todos));
+        showTodo(filter);
+    }
+
+    clearAll.addEventListener("click", () => {
+        isEditTask = false;
+        todos.splice(0, todos.length);
+        localStorage.setItem("todo-list", JSON.stringify(todos));
+        showTodo("all");
+    });
+
+    taskInput.addEventListener("keyup", e => {
+        let userTask = taskInput.value.trim();
+        if(e.key == "Enter" && userTask) {
+            if(!isEditTask) {
+                todos = !todos ? [] : todos;
+                let taskInfo = {name: userTask, status: "pending"};
+                todos.push(taskInfo);
+            } else {
+                isEditTask = false;
+                todos[editId].name = userTask;
+            }
+            taskInput.value = "";
+            localStorage.setItem("todo-list", JSON.stringify(todos));
+            showTodo(document.querySelector("span.active").id);
+        }
+    });
+    
+    // Password Generator functionality
+    const lengthSlider = document.querySelector(".pass-length input"),
+        options = document.querySelectorAll(".option input"),
+        copyIcon = document.querySelector(".input-box span"),
+        passwordInput = document.querySelector(".input-box input"),
+        passIndicator = document.querySelector(".pass-indicator"),
+        generateBtn = document.querySelector(".generate-btn");
+
+    const characters = {
+        lowercase: "abcdefghijklmnopqrstuvwxyz",
+        uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        numbers: "0123456789",
+        symbols: "^!$%&|[](){}:;.,*+-#@<>~",
+    };
+
+    const generatePassword = () => {
+        let staticPassword = "",
+            randomPassword = "",
+            excludeDuplicate = false,
+            passLength = lengthSlider.value;
+
+        options.forEach((option) => {
+            if (option.checked) {
+                if (option.id !== "exc-duplicate" && option.id !== "spaces") {
+                    staticPassword += characters[option.id];
+                } else if (option.id === "spaces") {
+                    staticPassword += `  ${staticPassword}  `;
+                } else {
+                    excludeDuplicate = true;
                 }
-                
-                totalCredits += credits;
-                totalGradePoints += credits * gradePoints;
             }
-            
-            if (totalCredits === 0) {
-                alert("Total credits cannot be zero.");
-                return;
-            }
-            
-            const gpa = totalGradePoints / totalCredits;
-            
-            document.getElementById("gpaResult").innerHTML = `
-                <p><b>Total Credits:</b> ${totalCredits.toFixed(2)}</p>
-                <p><b>Total Grade Points:</b> ${totalGradePoints.toFixed(2)}</p>
-                <p><b>GPA:</b> <span style="font-size: 1.2em; color: var(--danger);">${gpa.toFixed(2)}</span></p>
-            `;
-            document.getElementById("gpaResult").style.display = "block";
-            
-            // Pulse animation for the result
-            document.getElementById("gpaResult").classList.add("pulse");
-            setTimeout(() => {
-                document.getElementById("gpaResult").classList.remove("pulse");
-            }, 2000);
-        }
+        });
 
-        function calculateSGPA() {
-            const sgpaSum = parseFloat(document.getElementById("sgpaSum").value);
-            const semesters = parseInt(document.getElementById("semesters").value);
-            
-            if (!isNaN(sgpaSum) && !isNaN(semesters) && semesters > 0) {
-                const cgpa = sgpaSum / semesters;
-                document.getElementById("cgpaInput").value = cgpa.toFixed(2);
-                calculateCGPAAndPercentage();
+        for (let i = 0; i < passLength; i++) {
+            let randomChar =
+                staticPassword[Math.floor(Math.random() * staticPassword.length)];
+            if (excludeDuplicate) {
+                !randomPassword.includes(randomChar) || randomChar == " "
+                    ? (randomPassword += randomChar)
+                    : i--;
             } else {
-                // Shake animation for invalid input
-                const inputs = [document.getElementById("sgpaSum"), document.getElementById("semesters")];
-                inputs.forEach(input => {
-                    if (isNaN(parseFloat(input.value)) || (input.id === "semesters" && parseFloat(input.value) <= 0)) {
-                        input.style.animation = "shake 0.5s";
-                        setTimeout(() => {
-                            input.style.animation = "";
-                        }, 500);
-                    }
-                });
-                alert("Please enter valid SGPA sum and number of semesters.");
+                randomPassword += randomChar;
             }
         }
+        passwordInput.value = randomPassword;
+    };
 
-        function calculateCGPAAndPercentage() {
-            let cgpa = parseFloat(document.getElementById("cgpaInput").value);
-            const sgpaSum = parseFloat(document.getElementById("sgpaSum").value);
-            const semesters = parseInt(document.getElementById("semesters").value);
-            
-            if (!isNaN(sgpaSum) && !isNaN(semesters) && semesters > 0) {
-                cgpa = sgpaSum / semesters;
-            }
-            
-            if (isNaN(cgpa) || cgpa < 0) {
-                // Shake animation for invalid input
-                document.getElementById("cgpaInput").style.animation = "shake 0.5s";
-                setTimeout(() => {
-                    document.getElementById("cgpaInput").style.animation = "";
-                }, 500);
-                alert("Please enter a valid CGPA or SGPA values.");
-                return;
-            }
-            
-            let percentage = 0, grade = "", classification = "";
-            if (cgpa >= 9.5) { percentage = 100; grade = "O (Outstanding)"; classification = "First Class with Distinction"; }
-            else if (cgpa >= 8.25) { percentage = (12 * cgpa) - 25; grade = "A+ (Excellent)"; classification = "First Class with Distinction"; }
-            else if (cgpa >= 6.75) { percentage = (10 * cgpa) - 7.5; grade = "A (Very Good)"; classification = "First Class"; }
-            else if (cgpa >= 5.75) { percentage = (5 * cgpa) - 26.25; grade = "B+ (Good)"; classification = "Higher Second Class"; }
-            else if (cgpa >= 5.25) { percentage = (10 * cgpa) - 2.5; grade = "B (Above Average)"; classification = "Second Class"; }
-            else if (cgpa >= 4.75) { percentage = (10 * cgpa) - 2.5; grade = "C (Average)"; classification = "Pass Class"; }
-            else if (cgpa >= 4.0) { percentage = (6.6 * cgpa) + 13.6; grade = "D (Pass)"; classification = "Pass"; }
-            else { percentage = 0; grade = "F (Fail)"; classification = "Fail"; }
-            
-            document.getElementById("cgpaResult").innerHTML = ` 
-                <p><b>CGPA:</b> <span style="color: var(--danger);">${cgpa.toFixed(2)}</span></p>
-                <p><b>Percentage:</b> <span style="color: var(--danger);">${percentage.toFixed(1)}%</span></p>
-                <p><b>Grade:</b> ${grade}</p>
-                <p><b>Class:</b> ${classification}</p>`;
-            document.getElementById("cgpaResult").style.display = "block";
-            
-            // Pulse animation for the result
-            document.getElementById("cgpaResult").classList.add("pulse");
-            setTimeout(() => {
-                document.getElementById("cgpaResult").classList.remove("pulse");
-            }, 2000);
+    const updatePassIndicator = () => {
+        passIndicator.id =
+            lengthSlider.value <= 8
+                ? "weak"
+                : lengthSlider.value <= 16
+                ? "medium"
+                : "strong";
+    };
+
+    const updateSlider = () => {
+        document.querySelector(".pass-length span").innerText = lengthSlider.value;
+        generatePassword();
+        updatePassIndicator();
+    };
+    updateSlider();
+
+    const copyPassword = () => {
+        navigator.clipboard.writeText(passwordInput.value);
+        copyIcon.innerText = "check";
+        copyIcon.style.color = "#4285F4";
+        setTimeout(() => {
+            copyIcon.innerText = "copy_all";
+            copyIcon.style.color = "#707070";
+        }, 1500);
+    };
+
+    copyIcon.addEventListener("click", copyPassword);
+    lengthSlider.addEventListener("input", updateSlider);
+    generateBtn.addEventListener("click", generatePassword);
+    
+    // QR Code Generator functionality
+    const qrWrapper = document.querySelector(".qr-container"),
+        qrInput = qrWrapper.querySelector(".qr-form input"),
+        generateQrBtn = qrWrapper.querySelector(".qr-form button"),
+        qrImg = qrWrapper.querySelector(".qr-code img");
+    let preValue;
+
+    generateQrBtn.addEventListener("click", () => {
+        let qrValue = qrInput.value.trim();
+        if(!qrValue || preValue === qrValue) return;
+        preValue = qrValue;
+        generateQrBtn.innerText = "Generating QR Code...";
+        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qrValue}`;
+        qrImg.addEventListener("load", () => {
+            qrWrapper.classList.add("active");
+            generateQrBtn.innerText = "Generate QR Code";
+        });
+    });
+
+    qrInput.addEventListener("keyup", () => {
+        if(!qrInput.value.trim()) {
+            qrWrapper.classList.remove("active");
+            preValue = "";
+        }
+    });
+    
+    // Age Calculator functionality
+    function getage() {
+        let d1 = document.getElementById("date").value;
+        let m1 = document.getElementById("month").value;
+        let y1 = document.getElementById("year").value;
+
+        if(!d1 || !m1 || !y1) {
+            document.getElementById("age").innerHTML = "Please enter all fields";
+            return;
+        }
+
+        let date = new Date();
+        let d2 = date.getDate();
+        let m2 = 1 + date.getMonth();
+        let y2 = date.getFullYear();
+        let month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+        if (d1 > d2) {
+            d2 = d2 + month[m2 - 1];
+            m2 = m2 - 1;
+        }
+        if (m1 > m2) {
+            m2 = m2 + 12;
+            y2 = y2 - 1;
+        }
+        var d = d2 - d1;
+        var m = m2 - m1;
+        var y = y2 - y1;
+
+        // Get current time for hours, minutes, seconds
+        let now = new Date();
+        let hours = now.getHours();
+        let minutes = now.getMinutes();
+        let seconds = now.getSeconds();
+
+        document.getElementById("age").innerHTML =
+            `Your Age is ${y} Years ${m} Months ${d} Days`;
+    }
+    
+    // Academic Calculator functionality
+    // Tab navigation
+    function openTab(tabId) {
+        // Hide all tab contents
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        
+        // Remove active class from all tabs
+        document.querySelectorAll('.nav-btn').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        
+        // Show the selected tab content
+        document.getElementById(tabId).classList.add('active');
+        
+        // Add active class to the clicked tab
+        event.currentTarget.classList.add('active');
+    }
+    
+    // Show Toast Notification
+    function showToast(message, type = 'success') {
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        const icon = toast.querySelector('i');
+        
+        // Set icon based on type
+        if (type === 'error') {
+            icon.className = 'fas fa-exclamation-circle';
+            toast.className = 'toast error';
+        } else {
+            icon.className = 'fas fa-check-circle';
+            toast.className = 'toast';
         }
         
-        function downloadResult() {
-            // GPA Calculation Results
-            let gpaContent = "";
-            const gpaResult = document.getElementById("gpaResult");
-            if (gpaResult.style.display === "block") {
-                gpaContent = `
-GPA Calculation Results:
-${document.querySelector("#gpaResult p:nth-child(1)").textContent}
-${document.querySelector("#gpaResult p:nth-child(2)").textContent}
-${document.querySelector("#gpaResult p:nth-child(3)").textContent}
-                `;
-            }
-            
-            // SGPA/CGPA Results
-            const sgpaSum = document.getElementById("sgpaSum").value;
-            const semesters = document.getElementById("semesters").value;
-            const cgpa = document.getElementById("cgpaInput").value;
-            
-            let cgpaContent = "";
-            const cgpaResult = document.getElementById("cgpaResult");
-            if (cgpaResult.style.display === "block") {
-                cgpaContent = `
-SGPA/CGPA Calculation Results:
-SGPA Sum: ${sgpaSum}
-Number of Semesters: ${semesters}
-${document.querySelector("#cgpaResult p:nth-child(1)").textContent}
-${document.querySelector("#cgpaResult p:nth-child(2)").textContent}
-${document.querySelector("#cgpaResult p:nth-child(3)").textContent}
-${document.querySelector("#cgpaResult p:nth-child(4)").textContent}
-                `;
-            }
-            
-            const content = `
-SPPU GPA Calculator Results
-===========================
-
-${gpaContent}
-
-${cgpaContent}
-
-Generated on: ${new Date().toLocaleString()}
-            `;
-            
-            const blob = new Blob([content], { type: 'text/plain' });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = 'sppu_gpa_calculation_result.txt';
-            link.click();
-            
-            // Button click animation
-            event.target.classList.add("pulse");
-            setTimeout(() => {
-                event.target.classList.remove("pulse");
-            }, 1000);
-        }
-
-        function downloadImage() {
-            const link = document.createElement("a");
-            link.href = 'sppu.jpg';
-            link.download = 'sppu.jpg';
-            link.click();
-            
-            // Button click animation
-            event.target.classList.add("pulse");
-            setTimeout(() => {
-                event.target.classList.remove("pulse");
-            }, 1000);
+        toastMessage.textContent = message;
+        toast.classList.add('show');
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+    
+    // School Marks Calculations
+    function calculateTenthPercentage() {
+        const total = parseFloat(document.getElementById("tenthTotal").value);
+        const obtained = parseFloat(document.getElementById("tenthObtained").value);
+        
+        if (isNaN(total) || isNaN(obtained)) {
+            showToast("Please enter valid numbers for both fields.", "error");
+            return;
         }
         
+        if (total <= 0) {
+            showToast("Total marks must be greater than zero.", "error");
+            return;
+        }
+        
+        if (obtained > total) {
+            showToast("Obtained marks cannot be greater than total marks.", "error");
+            return;
+        }
+        
+        const percentage = (obtained / total) * 100;
+        
+        document.getElementById("tenthResult").innerHTML = `
+            <p><b><i class="fas fa-total"></i> Total Marks:</b> ${total}</p>
+            <p><b><i class="fas fa-star"></i> Obtained Marks:</b> ${obtained}</p>
+            <p><b><i class="fas fa-percentage"></i> Percentage:</b> <span style="color: var(--primary); font-size: 1.2em;">${percentage.toFixed(2)}%</span></p>
+            <p><b><i class="fas fa-graduation-cap"></i> Grade:</b> ${getGrade(percentage)}</p>
+        `;
+        document.getElementById("tenthResult").style.display = "block";
+        showToast("10th percentage calculated successfully!");
+    }
+    
+    function calculateTwelfthPercentage() {
+        const total = parseFloat(document.getElementById("twelfthTotal").value);
+        const obtained = parseFloat(document.getElementById("twelfthObtained").value);
+        
+        if (isNaN(total) || isNaN(obtained)) {
+            showToast("Please enter valid numbers for both fields.", "error");
+            return;
+        }
+        
+        if (total <= 0) {
+            showToast("Total marks must be greater than zero.", "error");
+            return;
+        }
+        
+        if (obtained > total) {
+            showToast("Obtained marks cannot be greater than total marks.", "error");
+            return;
+        }
+        
+        const percentage = (obtained / total) * 100;
+        
+        document.getElementById("twelfthResult").innerHTML = `
+            <p><b><i class="fas fa-total"></i> Total Marks:</b> ${total}</p>
+            <p><b><i class="fas fa-star"></i> Obtained Marks:</b> ${obtained}</p>
+            <p><b><i class="fas fa-percentage"></i> Percentage:</b> <span style="color: var(--primary); font-size: 1.2em;">${percentage.toFixed(2)}%</span></p>
+            <p><b><i class="fas fa-graduation-cap"></i> Grade:</b> ${getGrade(percentage)}</p>
+        `;
+        document.getElementById("twelfthResult").style.display = "block";
+        showToast("12th percentage calculated successfully!");
+    }
+    
+    // CGPA Calculator Functions
+    function calculateCGPA() {
+        const sgpaSum = parseFloat(document.getElementById("cgpaSgpaSum").value);
+        const semesters = parseInt(document.getElementById("cgpaSemesters").value);
+        
+        if (isNaN(sgpaSum)) {
+            showToast("Please enter valid SGPA sum.", "error");
+            return;
+        }
+        
+        if (isNaN(semesters)) {
+            showToast("Please enter valid number of semesters.", "error");
+            return;
+        }
+        
+        if (semesters <= 0) {
+            showToast("Number of semesters must be greater than zero.", "error");
+            return;
+        }
+        
+        const cgpa = sgpaSum / semesters;
+        
+        // Show progress bar
+        document.getElementById("cgpaProgress").style.display = "block";
+        const progressBar = document.getElementById("cgpaProgressBar");
+        
+        // Animate progress bar
+        let width = 0;
+        const targetWidth = (cgpa / 10 * 100);
+        const interval = setInterval(() => {
+            if (width >= targetWidth) {
+                clearInterval(interval);
+            } else {
+                width++;
+                progressBar.style.width = width + "%";
+                progressBar.textContent = width + "%";
+            }
+        }, 20);
+        
+        document.getElementById("cgpaResult").innerHTML = `
+            <p><b><i class="fas fa-plus-circle"></i> Sum of SGPA:</b> ${sgpaSum.toFixed(2)}</p>
+            <p><b><i class="fas fa-list-ol"></i> Number of Semesters:</b> ${semesters}</p>
+            <p><b><i class="fas fa-calculator"></i> CGPA (out of 10.0):</b> <span style="font-size: 1.2em; color: var(--primary);">${cgpa.toFixed(2)}</span></p>
+            <p><b><i class="fas fa-percentage"></i> Equivalent Percentage:</b> <span style="color: var(--primary);">${(cgpa * 9.5).toFixed(2)}%</span></p>
+            <p><b><i class="fas fa-graduation-cap"></i> Grade:</b> ${getGrade(cgpa * 9.5)}</p>
+        `;
+        document.getElementById("cgpaResult").style.display = "block";
+        showToast("CGPA calculated successfully!");
+    }
+    
+    // SPPU CGPA to Percentage Conversion
+    function convertSppuCgpaToPercentage() {
+        const cgpa = parseFloat(document.getElementById("cgpaInput").value);
+        
+        if (isNaN(cgpa)) {
+            showToast("Please enter a valid CGPA.", "error");
+            return;
+        }
+        
+        if (cgpa < 0 || cgpa > 10) {
+            showToast("CGPA must be between 0 and 10.", "error");
+            return;
+        }
+        
+        let percentage, grade, formula;
+        
+        if (cgpa >= 9.5) {
+            // O grade
+            percentage = (20 * cgpa) - 100;
+            grade = "O (Outstanding)";
+            formula = "20 × CGPA - 100";
+        } else if (cgpa >= 8.25) {
+            // A+ grade
+            percentage = (12 * cgpa) - 25;
+            grade = "A+ (Excellent)";
+            formula = "12 × CGPA - 25";
+        } else if (cgpa >= 6.75) {
+            // A grade
+            percentage = (10 * cgpa) - 7.5;
+            grade = "A (Very Good)";
+            formula = "10 × CGPA - 7.5";
+        } else if (cgpa >= 5.75) {
+            // B+ grade
+            percentage = (5 * cgpa) + 26.25;
+            grade = "B+ (Good)";
+            formula = "5 × CGPA + 26.25";
+        } else if (cgpa >= 5.25) {
+            // B grade
+            percentage = (10 * cgpa) - 2.5;
+            grade = "B (Above Average)";
+            formula = "10 × CGPA - 2.50";
+        } else if (cgpa >= 4.75) {
+            // C grade
+            percentage = (10 * cgpa) - 2.5;
+            grade = "C (Average)";
+            formula = "10 × CGPA - 2.50";
+        } else if (cgpa >= 4.0) {
+            // D grade
+            percentage = (6.6 * cgpa) + 13.6;
+            grade = "D (Pass)";
+            formula = "6.6 × CGPA + 13.6";
+        } else {
+            // Fail
+            percentage = 0;
+            grade = "F (Fail)";
+            formula = "Not applicable (Fail)";
+        }
+        
+        // Ensure percentage doesn't exceed 100
+        percentage = Math.min(percentage, 100);
+        
+        document.getElementById("cgpaConversionResult").innerHTML = `
+            <p><b><i class="fas fa-calculator"></i> CGPA:</b> ${cgpa.toFixed(2)}</p>
+            <p><b><i class="fas fa-percentage"></i> Equivalent Percentage:</b> <span style="color: var(--primary); font-size: 1.2em;">${percentage.toFixed(2)}%</span></p>
+            <p><b><i class="fas fa-graduation-cap"></i> Grade:</b> ${grade}</p>
+            <p><b><i class="fas fa-square-root-alt"></i> Formula Used:</b> ${formula}</p>
+        `;
+        document.getElementById("cgpaConversionResult").style.display = "block";
+        showToast("CGPA converted to percentage successfully!");
+    }
+
+    function downloadSppuCgpaConversionResult() {
+        const cgpa = document.getElementById("cgpaInput").value;
+        const resultDiv = document.getElementById("cgpaConversionResult");
+        
+        if (resultDiv.style.display !== "block") {
+            showToast("Please convert CGPA first.", "error");
+            return;
+        }
+        
+        const resultText = resultDiv.textContent;
+        const lines = resultText.split('\n').filter(line => line.trim() !== '');
+        
+        const content = `SPPU CGPA to Percentage Conversion\n\n` +
+                       `${lines[0]}\n` +
+                       `${lines[1]}\n` +
+                       `${lines[2]}\n` +
+                       `${lines[3]}\n\n` +
+                       `Calculated on: ${new Date().toLocaleString()}`;
+        
+        downloadText(content, "sppu_cgpa_conversion_result.txt");
+        showToast("CGPA conversion result downloaded!");
+    }
+    
+    // Get grade based on percentage
+    function getGrade(percentage) {
+        if (percentage >= 90) return "O (Outstanding)";
+        if (percentage >= 80) return "A+ (Excellent)";
+        if (percentage >= 70) return "A (Very Good)";
+        if (percentage >= 60) return "B+ (Good)";
+        if (percentage >= 50) return "B (Above Average)";
+        if (percentage >= 40) return "C (Average)";
+        return "F (Fail)";
+    }
+    
+    // Download functions
+    function downloadTenthResult() {
+        const total = document.getElementById("tenthTotal").value;
+        const obtained = document.getElementById("tenthObtained").value;
+        const resultDiv = document.getElementById("tenthResult");
+        
+        if (resultDiv.style.display !== "block") {
+            showToast("Please calculate the result first.", "error");
+            return;
+        }
+        
+        const percentage = (obtained / total) * 100;
+        const grade = getGrade(percentage);
+        
+        const content = `10th Standard Marks Calculation\n\n` +
+                       `Total Marks: ${total}\n` +
+                       `Obtained Marks: ${obtained}\n` +
+                       `Percentage: ${percentage.toFixed(2)}%\n` +
+                       `Grade: ${grade}\n\n` +
+                       `Calculated on: ${new Date().toLocaleString()}`;
+        
+        downloadText(content, "10th_marks_result.txt");
+        showToast("10th result downloaded!");
+    }
+    
+    function downloadTwelfthResult() {
+        const total = document.getElementById("twelfthTotal").value;
+        const obtained = document.getElementById("twelfthObtained").value;
+        const resultDiv = document.getElementById("twelfthResult");
+        
+        if (resultDiv.style.display !== "block") {
+            showToast("Please calculate the result first.", "error");
+            return;
+        }
+        
+        const percentage = (obtained / total) * 100;
+        const grade = getGrade(percentage);
+        
+        const content = `12th Standard Marks Calculation\n\n` +
+                       `Total Marks: ${total}\n` +
+                       `Obtained Marks: ${obtained}\n` +
+                       `Percentage: ${percentage.toFixed(2)}%\n` +
+                       `Grade: ${grade}\n\n` +
+                       `Calculated on: ${new Date().toLocaleString()}`;
+        
+        downloadText(content, "12th_marks_result.txt");
+        showToast("12th result downloaded!");
+    }
+    
+    function downloadCGPAResult() {
+        const sgpaSum = document.getElementById("cgpaSgpaSum").value;
+        const semesters = document.getElementById("cgpaSemesters").value;
+        const resultDiv = document.getElementById("cgpaResult");
+        
+        if (resultDiv.style.display !== "block") {
+            showToast("Please calculate the result first.", "error");
+            return;
+        }
+        
+        const cgpa = (sgpaSum / semesters).toFixed(2);
+        const percentage = (cgpa * 9.5).toFixed(2);
+        const grade = getGrade(percentage);
+        
+        const content = `CGPA Calculation (10.0 scale)\n\n` +
+                       `Sum of SGPA: ${sgpaSum}\n` +
+                       `Number of Semesters: ${semesters}\n` +
+                       `CGPA: ${cgpa}\n` +
+                       `Equivalent Percentage: ${percentage}%\n` +
+                       `Grade: ${grade}\n\n` +
+                       `Calculated on: ${new Date().toLocaleString()}`;
+        
+        downloadText(content, "cgpa_result.txt");
+        showToast("CGPA result downloaded!");
+    }
+    
+    function downloadReference() {
+        const content = `Grading System Reference\n\n` +
+                       `GPA Scale (Out of 4.0)\n` +
+                       `90-100% - A - 4.0\n` +
+                       `80-89% - B - 3.0\n` +
+                       `70-79% - C - 2.0\n` +
+                       `60-69% - D - 1.0\n` +
+                       `Below 60% - F - 0.0\n\n` +
+                       `SGPA/CGPA Scale (Out of 10.0)\n` +
+                       `90-100% - O (Outstanding) - 10 - First Class with Distinction\n` +
+                       `80-89% - A+ (Excellent) - 9 - First Class\n` +
+                       `70-79% - A (Very Good) - 8 - First Class\n` +
+                       `60-69% - B+ (Good) - 7 - Second Class\n` +
+                       `50-59% - B (Above Average) - 6 - Second Class\n` +
+                       `40-49% - C (Average) - 5 - Pass Class\n` +
+                       `Below 40% - F (Fail) - 0 - Fail\n\n` +
+                       `Formulas\n` +
+                       `Percentage = (Obtained Marks / Total Marks) × 100\n` +
+                       `GPA = Sum of (Grade Points × Credit Hours) / Total Credit Hours\n` +
+                       `SGPA = Sum of (Grade Points × Credits) / Total Credits\n` +
+                       `CGPA = Sum of (SGPA × Semester Credits) / Total Credits Across All Semesters\n\n` +
+                       `International Grade Conversion Reference\n` +
+                       `90-100% (India) - 10 CGPA - 4.0 GPA - First Class Honours (UK) - A (US)\n` +
+                       `80-89% - 9 - 3.7-4.0 - Upper Second Class (2:1) - A-/B+\n` +
+                       `70-79% - 8 - 3.0-3.3 - Lower Second Class (2:2) - B\n` +
+                       `60-69% - 7 - 2.3-2.7 - Third Class - C+\n` +
+                       `50-59% - 6 - 2.0 - Ordinary Degree - C\n` +
+                       `Below 50% - 0-5 - 0-1.7 - Fail - F\n\n` +
+                       `Note: Grade conversions are approximate and vary by institution.\n` +
+                       `Generated on: ${new Date().toLocaleString()}`;
+        
+        downloadText(content, "grading_reference.txt");
+        showToast("Reference guide downloaded!");
+    }
+    
+    function downloadText(content, filename) {
+        const element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+        element.setAttribute('download', filename);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
+    
+    // Refresh Confirmation Functionality
+    let refreshConfirmed = false;
+    
+    // Show refresh confirmation modal
+    function showRefreshConfirmation(e) {
+        // Check if we've already confirmed refresh
+        if (refreshConfirmed) return true;
+        
+        // Check if there's any unsaved data in todo list
+        const todos = JSON.parse(localStorage.getItem("todo-list")) || [];
+        if (todos.length > 0) {
+            e.preventDefault();
+            document.getElementById('refreshModal').style.display = 'flex';
+            return false;
+        }
+        
+        return true;
+    }
+    
+    // Confirm refresh action
+    function confirmRefresh() {
+        refreshConfirmed = true;
+        document.getElementById('refreshModal').style.display = 'none';
+        window.location.reload();
+    }
+    
+    // Cancel refresh action
+    function cancelRefresh() {
+        document.getElementById('refreshModal').style.display = 'none';
+    }
+    
+    // Add beforeunload event listener
+    window.addEventListener('beforeunload', function(e) {
+        const todos = JSON.parse(localStorage.getItem("todo-list")) || [];
+        if (todos.length > 0 && !refreshConfirmed) {
+            e.preventDefault();
+            e.returnValue = 'You have unsaved tasks. Are you sure you want to leave?';
+            return e.returnValue;
+        }
+    });
+    
+    // Initialize the calculator
+    document.addEventListener('DOMContentLoaded', function() {
         // Add shake animation for invalid inputs
         const style = document.createElement('style');
         style.textContent = `
@@ -835,8 +2243,33 @@ Generated on: ${new Date().toLocaleString()}
                 20%, 60% { transform: translateX(-5px); }
                 40%, 80% { transform: translateX(5px); }
             }
+            .shake {
+                animation: shake 0.5s;
+            }
         `;
         document.head.appendChild(style);
-    </script>
+        
+        // Add event listeners for input validation
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value < 0) {
+                    this.classList.add('shake');
+                    setTimeout(() => this.classList.remove('shake'), 500);
+                    this.value = '';
+                }
+            });
+        });
+        
+        // Show welcome message
+        setTimeout(() => {
+            showToast("Welcome to EasyTool - All Your Tools in One Place!");
+        }, 1000);
+    });
+</script>
+
+<div class="footer">
+    This conversion is based on SPPU 2019 rulebook and Circular No. 322/2020
+</div>
+
 </body>
 </html>

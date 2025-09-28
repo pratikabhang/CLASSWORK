@@ -37,13 +37,13 @@ body {
     background: linear-gradient(135deg, #4a90e2, #50e3c2);
     color: white;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 1.5rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 1rem;
     position: sticky;
     top: 0;
     z-index: 100;
-    transition: all 0.3s ease-in-out;
+    flex-direction: row; /* Desktop default */
 }
 
 /* Logo */
@@ -53,6 +53,7 @@ body {
     font-size: 1.5rem;
     font-weight: 700;
     cursor: pointer;
+    margin-right: 2rem;
 }
 
 .logo span {
@@ -67,6 +68,7 @@ body {
 .nav-links {
     display: flex;
     list-style: none;
+    flex: 1;
 }
 
 .nav-links li {
@@ -97,21 +99,6 @@ body {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Hamburger Menu (Mobile) */
-.hamburger {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-    gap: 4px;
-}
-
-.hamburger span {
-    width: 25px;
-    height: 3px;
-    background: white;
-    border-radius: 2px;
-}
-
 /* Hide text on scroll (mobile) */
 .navbar.hide-text .logo-text,
 .navbar.hide-text .link-text {
@@ -120,28 +107,45 @@ body {
     overflow: hidden;
 }
 
-/* Responsive */
+/* Responsive: Left-side vertical navbar on mobile */
 @media (max-width: 768px) {
-    .nav-links {
-        position: fixed;
-        top: 60px;
-        right: -100%;
-        background: linear-gradient(135deg, #4a90e2, #50e3c2);
-        height: 100vh;
-        width: 200px;
+    .navbar {
         flex-direction: column;
-        align-items: flex-start;
-        padding: 1rem;
-        gap: 1rem;
-        transition: right 0.3s ease;
+        width: 60px; /* Compact left sidebar */
+        height: 100vh;
+        padding: 1rem 0.5rem;
+        align-items: center;
     }
 
-    .nav-links.show {
-        right: 0;
+    .logo {
+        flex-direction: column;
+        font-size: 1.2rem;
+        margin: 0 0 2rem 0;
     }
 
-    .hamburger {
-        display: flex;
+    .logo-text {
+        display: none; /* Only icon on scroll/mobile */
+    }
+
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 1.5rem;
+    }
+
+    .nav-links a {
+        flex-direction: column;
+        padding: 0.5rem 0;
+    }
+
+    .nav-links a .link-text {
+        display: none; /* Hide text on mobile */
+    }
+
+    .navbar.hide-text .logo-text {
+        display: block;
+        opacity: 1;
     }
 }
 

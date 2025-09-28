@@ -438,15 +438,21 @@ const navbar = document.querySelector('.navbar');
 window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
 
+    if (currentScroll <= 0) {
+        navbar.style.top = '0'; // Always show at very top
+        return;
+    }
+
     if (currentScroll > lastScroll) {
-        navbar.style.top = '-100px'; // Adjust based on navbar height
+        navbar.style.top = '-150px'; // Fully hide (adjust based on height)
     } else {
-        navbar.style.top = '0';
+        navbar.style.top = '0'; // Show on scroll up
     }
 
     lastScroll = currentScroll;
 });
 </script>
+
 
 </body>
 </html>

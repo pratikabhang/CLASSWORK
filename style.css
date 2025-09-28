@@ -41,7 +41,7 @@ body {
     align-items: center;
     padding: 1rem 2rem;
     box-shadow: var(--card-shadow);
-    position: flex;       /* Changed from sticky to fixed */
+    position: fixed;       /* Changed from sticky to fixed */
     top: 0;
     left: 0;
     width: 100%;           /* Make sure it spans full width */

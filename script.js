@@ -1,3 +1,20 @@
+// Mobile Menu Toggle Functionality
+const mobileMenu = document.getElementById('mobile-menu');
+const navLinks = document.getElementById('nav-links');
+
+mobileMenu.addEventListener('click', function() {
+    this.classList.toggle('active');
+    navLinks.classList.toggle('active');
+});
+
+// Close mobile menu when clicking on a link
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', function() {
+        mobileMenu.classList.remove('active');
+        navLinks.classList.remove('active');
+    });
+});
+
 // Navigation functionality
 document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', function(e) {
@@ -734,18 +751,3 @@ document.addEventListener('DOMContentLoaded', function() {
         showToast("Welcome to ClassWork");
     }, 1000);
 });
-
- // Mobile dropdown navigation
-    const navSelect = document.querySelector('.nav-select');
-    navSelect.addEventListener('change', function() {
-        if(this.value !== "#") {
-            window.location.href = this.value;
-        }
-    });
-
-    // Optional: Hamburger toggle for original menu
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
-    hamburger.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-    });

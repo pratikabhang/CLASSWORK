@@ -13,36 +13,27 @@
 <body>
 <!-- Navigation Bar -->
 <nav class="navbar">
-    <div class="logo">
-        <span class="material-symbols-rounded">computer</span>
-        ClassWork
+    <div class="nav-container">
+        <div class="logo">
+            <span class="material-symbols-rounded">computer</span>
+            Toolify
+        </div>
+        
+        <!-- Mobile Menu Button -->
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#" class="active" data-tool="academic"><i class="fas fa-graduation-cap"></i> <span>Marks Calculator</span></a></li>
+            <li><a href="#" data-tool="qr"><i class="uil uil-qrcode-scan"></i> <span>QR Code Maker</span></a></li>
+            <li><a href="#" data-tool="todo"><i class="uil uil-clipboard-notes"></i> <span>To-Do Task</span></a></li>
+            <li><a href="#" data-tool="password"><i class="uil uil-lock"></i> <span>Password Generate</span></a></li>
+            <li><a href="#" data-tool="age"><i class="uil uil-calculator-alt"></i> <span>Age Calculator</span></a></li>
+        </ul>
     </div>
-
-    <!-- Hamburger for sliding menu (optional) -->
-    <div class="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
-
-    <!-- Navigation Links -->
-    <ul class="nav-links">
-        <li><a href="#" class="active" data-tool="academic"><i class="fas fa-graduation-cap"></i> Marks Calculator</a></li>
-        <li><a href="#" data-tool="qr"><i class="uil uil-qrcode-scan"></i> QR Code Maker</a></li>
-        <li><a href="#" data-tool="todo"><i class="uil uil-clipboard-notes"></i> To-Do Task</a></li>
-        <li><a href="#" data-tool="password"><i class="uil uil-lock"></i> Password Generate</a></li>
-        <li><a href="#" data-tool="age"><i class="uil uil-calculator-alt"></i> Age Calculator</a></li>
-    </ul>
-
-    <!-- Mobile Dropdown Menu -->
-    <select class="nav-select">
-        <option value="#" selected>Go to...</option>
-        <option value="#">Marks Calculator</option>
-        <option value="#">QR Code Maker</option>
-        <option value="#">To-Do Task</option>
-        <option value="#">Password Generate</option>
-        <option value="#">Age Calculator</option>
-    </select>
 </nav>
 
 <!-- Tool Container -->

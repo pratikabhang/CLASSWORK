@@ -32,27 +32,25 @@ body {
     line-height: 1.6;
 }
 
-:root {
-    --primary-color: #4b6cb7;
-    --secondary-color: #182848;
-    --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-/* Navbar */
+/* Navigation Bar */
 .navbar {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
     box-shadow: var(--card-shadow);
     position: sticky;
     top: 0;
     z-index: 100;
 }
 
-/* Logo */
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 .logo {
     display: flex;
     align-items: center;
@@ -62,16 +60,54 @@ body {
     transition: transform 0.3s ease;
 }
 
-.logo:hover { transform: scale(1.05); }
-.logo span { color: #ffd700; margin-right: 0.5rem; }
+.logo:hover {
+    transform: scale(1.05);
+}
 
-/* Navigation Links */
+.logo span {
+    color: #ffd700;
+    margin-right: 0.5rem;
+}
+
+/* Mobile Menu Toggle */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.menu-toggle .bar {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 3px 0;
+    transition: var(--transition);
+    border-radius: 2px;
+}
+
+.menu-toggle.active .bar:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.menu-toggle.active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active .bar:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
+
 .nav-links {
     display: flex;
     list-style: none;
+    transition: var(--transition);
 }
 
-.nav-links li { margin: 0 1rem; position: relative; }
+.nav-links li {
+    margin: 0 1rem;
+    position: relative;
+}
 
 .nav-links a {
     color: white;
@@ -79,13 +115,20 @@ body {
     font-weight: 500;
     padding: 0.5rem 1rem;
     border-radius: 5px;
-    transition: all 0.3s ease;
+    transition: var(--transition);
     display: flex;
     align-items: center;
-    font-size: 1rem;
+    white-space: nowrap;
 }
 
-.nav-links a i { margin-right: 0.5rem; }
+.nav-links a i {
+    margin-right: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.nav-links a span {
+    display: inline;
+}
 
 .nav-links a:hover {
     background-color: rgba(255, 255, 255, 0.2);
@@ -97,44 +140,20 @@ body {
     font-weight: 600;
 }
 
-/* Hamburger */
-.hamburger {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-    gap: 5px;
-}
-
-.hamburger span {
-    width: 25px;
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
     height: 3px;
-    background-color: white;
-    border-radius: 2px;
+    background: #ffd700;
+    bottom: -5px;
+    left: 0;
+    transition: width 0.3s ease;
 }
 
-/* Mobile Dropdown */
-.nav-select {
-    display: none;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    border-radius: 5px;
-    border: none;
-    background-color: var(--secondary-color);
-    color: white;
-    cursor: pointer;
+.nav-links a:hover::after {
+    width: 100%;
 }
-
-/* Mobile Styles */
-@media (max-width: 768px) {
-    .nav-links { display: none; } /* hide regular nav links */
-    .hamburger { display: flex; } /* optional if you keep hamburger */
-
-    /* Show select menu */
-    .nav-select {
-        display: block;
-    }
-}
-
 
 /* Tool Container */
 .tool-container {
@@ -1039,19 +1058,53 @@ label {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
+    .nav-container {
         padding: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .menu-toggle {
+        display: flex;
     }
     
     .nav-links {
-        margin-top: 1rem;
-        flex-wrap: wrap;
-        justify-content: center;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem 0;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 99;
+    }
+    
+    .nav-links.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
     }
     
     .nav-links li {
-        margin: 0.5rem;
+        margin: 0.5rem 0;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .nav-links a {
+        padding: 0.8rem 1rem;
+        width: 100%;
+        justify-content: center;
+        border-radius: 0;
+    }
+    
+    .nav-links a span {
+        display: inline;
     }
     
     .tool-container {

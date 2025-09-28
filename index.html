@@ -15,25 +15,16 @@
 <nav class="navbar">
     <div class="logo">
         <span class="material-symbols-rounded">computer</span>
-        <span class="logo-text">ClassWork</span>
+        ClassWork
     </div>
-
-    <!-- Mobile Menu Toggle -->
-    <div class="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
-
     <ul class="nav-links">
-        <li><a href="#" class="active" data-tool="academic"><i class="fas fa-graduation-cap"></i><span class="link-text">Marks Calculator</span></a></li>
-        <li><a href="#" data-tool="qr"><i class="uil uil-qrcode-scan"></i><span class="link-text">QR Code Maker</span></a></li>
-        <li><a href="#" data-tool="todo"><i class="uil uil-clipboard-notes"></i><span class="link-text">To-Do Task</span></a></li>
-        <li><a href="#" data-tool="password"><i class="uil uil-lock"></i><span class="link-text">Password Generate</span></a></li>
-        <li><a href="#" data-tool="age"><i class="uil uil-calculator-alt"></i><span class="link-text">Age Calculator</span></a></li>
+        <li><a href="#" class="active" data-tool="academic"><i class="fas fa-graduation-cap"></i> Marks Calculator</a></li>
+        <li><a href="#" data-tool="qr"><i class="uil uil-qrcode-scan"></i> QR Code Maker</a></li>
+        <li><a href="#" data-tool="todo"><i class="uil uil-clipboard-notes"></i> To-Do Task</a></li>
+        <li><a href="#" data-tool="password"><i class="uil uil-lock"></i> Password Generate</a></li>
+        <li><a href="#" data-tool="age"><i class="uil uil-calculator-alt"></i> Age Calculator</a></li>
     </ul>
 </nav>
-
 
 <!-- Tool Container -->
 <div class="tool-container">
@@ -115,10 +106,9 @@
                 <input type="text" id="qr-input" spellcheck="false" placeholder="Enter text or URL">
                 <button id="generate-btn">Generate QR Code</button>
             </div>
-<div class="qr-code">
-    <img id="qr-image" src="qr.jpeg" alt="QR Code">
-</div>
-
+            <div class="qr-code">
+                <img id="qr-image" src="" alt="QR Code">
+            </div>
             <button class="download-qr-btn" id="download-qr-btn">
                 <i class="fas fa-download"></i> Download QR Code
             </button>
@@ -440,6 +430,5 @@
 </div>
 
 <script src="script.js"></script>
-
 </body>
 </html>

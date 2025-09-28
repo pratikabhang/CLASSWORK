@@ -431,5 +431,22 @@
 </div>
 
 <script src="script.js"></script>
+<script>
+let lastScroll = 0;
+const navbar = document.querySelector('.navbar');
+
+window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+
+    if (currentScroll > lastScroll) {
+        navbar.style.top = '-80px'; // Adjust based on navbar height
+    } else {
+        navbar.style.top = '0';
+    }
+
+    lastScroll = currentScroll;
+});
+</script>
+
 </body>
 </html>

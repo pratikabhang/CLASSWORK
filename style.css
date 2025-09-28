@@ -34,6 +34,10 @@ body {
 
 /* Navigation Bar */
 .navbar {
+    --primary-color: #4a90e2;
+    --secondary-color: #6a5acd;
+    --card-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
     display: flex;
@@ -41,13 +45,13 @@ body {
     align-items: center;
     padding: 1rem 2rem;
     box-shadow: var(--card-shadow);
-    position: fixed;       /* Changed from sticky to fixed */
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%;           /* Make sure it spans full width */
+    width: 100%;
     z-index: 100;
-    transition: top 0.3s ease-in-out; /* Smooth hide/show on scroll */
-    height: 80px;          /* Optional: define height for consistency */
+    transition: top 0.3s ease-in-out;
+    height: 80px;
 }
 
 .logo {
@@ -89,62 +93,17 @@ body {
     align-items: center;
 }
 
-.nav-links a i {
-    margin-right: 0.5rem;
-}
-
 .nav-links a:hover {
     background-color: rgba(255, 255, 255, 0.2);
     transform: translateY(-3px);
 }
 
-.nav-links a.active {
-    background-color: rgba(255, 255, 255, 0.3);
-    font-weight: 600;
-}
-
-.nav-links a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 3px;
-    background: #ffd700;
-    bottom: -5px;
-    left: 0;
-    transition: width 0.3s ease;
-}
-
-.nav-links a:hover::after {
-    width: 100%;
-}
-
-/* 📱 Mobile Responsive */
 @media (max-width: 600px) {
-    .navbar {
-        padding: 0.5rem 1rem;
-    }
-
-    .logo {
-        font-size: 1.2rem;
-    }
-
-    .nav-links {
-        gap: 0.3rem;
-    }
-
-    .nav-links li {
-        margin: 0 0.3rem;
-    }
-
-    .nav-links a {
-        font-size: 0.8rem;
-        padding: 0.3rem 0.5rem;
-    }
-
-    .nav-links a i {
-        margin-right: 0.3rem;
-        font-size: 0.8rem;
-    }
+    .navbar { padding: 0.5rem 1rem; }
+    .logo { font-size: 1.2rem; }
+    .nav-links { gap: 0.3rem; }
+    .nav-links li { margin: 0 0.3rem; }
+    .nav-links a { font-size: 0.8rem; padding: 0.3rem 0.5rem; }
 }
 
 /* Tool Container */

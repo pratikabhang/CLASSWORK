@@ -15,16 +15,25 @@
 <nav class="navbar">
     <div class="logo">
         <span class="material-symbols-rounded">computer</span>
-        ClassWork
+        <span class="logo-text">ClassWork</span>
     </div>
+
+    <!-- Mobile Menu Toggle -->
+    <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
     <ul class="nav-links">
-        <li><a href="#" class="active" data-tool="academic"><i class="fas fa-graduation-cap"></i> Marks Calculator</a></li>
-        <li><a href="#" data-tool="qr"><i class="uil uil-qrcode-scan"></i> QR Code Maker</a></li>
-        <li><a href="#" data-tool="todo"><i class="uil uil-clipboard-notes"></i> To-Do Task</a></li>
-        <li><a href="#" data-tool="password"><i class="uil uil-lock"></i> Password Generate</a></li>
-        <li><a href="#" data-tool="age"><i class="uil uil-calculator-alt"></i> Age Calculator</a></li>
+        <li><a href="#" class="active" data-tool="academic"><i class="fas fa-graduation-cap"></i><span class="link-text">Marks Calculator</span></a></li>
+        <li><a href="#" data-tool="qr"><i class="uil uil-qrcode-scan"></i><span class="link-text">QR Code Maker</span></a></li>
+        <li><a href="#" data-tool="todo"><i class="uil uil-clipboard-notes"></i><span class="link-text">To-Do Task</span></a></li>
+        <li><a href="#" data-tool="password"><i class="uil uil-lock"></i><span class="link-text">Password Generate</span></a></li>
+        <li><a href="#" data-tool="age"><i class="uil uil-calculator-alt"></i><span class="link-text">Age Calculator</span></a></li>
     </ul>
 </nav>
+
 
 <!-- Tool Container -->
 <div class="tool-container">
@@ -432,26 +441,31 @@
 
 <script src="script.js"></script>
 <script>
-let lastScroll = 0;
 const navbar = document.querySelector('.navbar');
+const navLinks = document.querySelector('.nav-links');
+const hamburger = document.querySelector('.hamburger');
 
+let lastScroll = 0;
+
+// Scroll behavior
 window.addEventListener('scroll', () => {
-    if (window.innerWidth < 768) {  // Apply only on mobile
+    if (window.innerWidth < 768) { // Only mobile
         const currentScroll = window.pageYOffset;
 
-        if (currentScroll <= 0) {
-            navbar.style.top = '0';
-            return;
-        }
-
-        if (currentScroll > lastScroll) {
-            navbar.style.top = '-100px'; // Adjust based on height
+        if (currentScroll > lastScroll && currentScroll > 50) {
+            // Scrolling down → hide text
+            navbar.classList.add('hide-text');
         } else {
-            navbar.style.top = '0';
+            // Scrolling up → show text
+            navbar.classList.remove('hide-text');
         }
-
         lastScroll = currentScroll;
     }
+});
+
+// Hamburger menu toggle
+hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('show');
 });
 </script>
 

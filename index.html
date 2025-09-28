@@ -18,6 +18,13 @@
         <span class="logo-text">ClassWork</span>
     </div>
 
+    <!-- Mobile Menu Toggle -->
+    <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
     <ul class="nav-links">
         <li><a href="#" class="active" data-tool="academic"><i class="fas fa-graduation-cap"></i><span class="link-text">Marks Calculator</span></a></li>
         <li><a href="#" data-tool="qr"><i class="uil uil-qrcode-scan"></i><span class="link-text">QR Code Maker</span></a></li>
@@ -433,27 +440,6 @@
 </div>
 
 <script src="script.js"></script>
-<script>
-const navbar = document.querySelector('.navbar');
-let lastScroll = 0;
-
-window.addEventListener('scroll', () => {
-    if (window.innerWidth < 768) { // Only mobile
-        const currentScroll = window.pageYOffset;
-
-        if (currentScroll > lastScroll && currentScroll > 50) {
-            // Scrolling down → hide logo text
-            navbar.classList.add('hide-text');
-        } else {
-            // Scrolling up → show logo text
-            navbar.classList.remove('hide-text');
-        }
-
-        lastScroll = currentScroll;
-    }
-});
-</script>
-
 
 </body>
 </html>

@@ -735,9 +735,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 1000);
 });
 
-const hamburger = document.querySelector('.hamburger');
-const navLinks = document.querySelector('.nav-links');
+ // Mobile dropdown navigation
+    const navSelect = document.querySelector('.nav-select');
+    navSelect.addEventListener('change', function() {
+        if(this.value !== "#") {
+            window.location.href = this.value;
+        }
+    });
 
-hamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
-});
+    // Optional: Hamburger toggle for original menu
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+    });

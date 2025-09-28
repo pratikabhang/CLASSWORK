@@ -436,23 +436,22 @@ let lastScroll = 0;
 const navbar = document.querySelector('.navbar');
 
 window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
+    if (window.innerWidth < 768) {  // Apply only on mobile
+        const currentScroll = window.pageYOffset;
 
-    // At the very top → always show
-    if (currentScroll <= 0) {
-        navbar.style.top = '0';
-        return;
+        if (currentScroll <= 0) {
+            navbar.style.top = '0';
+            return;
+        }
+
+        if (currentScroll > lastScroll) {
+            navbar.style.top = '-100px'; // Adjust based on height
+        } else {
+            navbar.style.top = '0';
+        }
+
+        lastScroll = currentScroll;
     }
-
-    // Scrolling down → hide
-    if (currentScroll > lastScroll) {
-        navbar.style.top = '-100px'; // Adjust based on navbar height
-    } else {
-        // Scrolling up → show
-        navbar.style.top = '0';
-    }
-
-    lastScroll = currentScroll;
 });
 </script>
 

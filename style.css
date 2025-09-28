@@ -44,6 +44,7 @@ body {
     position: sticky;
     top: 0;
     z-index: 100;
+    transition: top 0.3s ease-in-out; /* Smooth show/hide */
 }
 
 .logo {
@@ -113,6 +114,7 @@ body {
 .nav-links a:hover::after {
     width: 100%;
 }
+
 
 /* Tool Container */
 .tool-container {
